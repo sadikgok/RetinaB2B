@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Repositories.BasketRepository;
-using Entities.Concrete;
 using Business.Aspects.Secured;
-using Core.Aspects.Validation;
+using Business.Repositories.BasketRepository.Constants;
+using Business.Repositories.BasketRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
-using Business.Repositories.BasketRepository.Validation;
-using Business.Repositories.BasketRepository.Constants;
+using Core.Aspects.Validation;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.BasketRepository;
+using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Repositories.BasketRepository
 {
@@ -26,7 +21,7 @@ namespace Business.Repositories.BasketRepository
             _basketDal = basketDal;
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(BasketValidator))]
         [RemoveCacheAspect("IBasketService.Get")]
 
@@ -55,7 +50,7 @@ namespace Business.Repositories.BasketRepository
             return new SuccessResult(BasketMessages.Deleted);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<Basket>>> GetList()
@@ -69,5 +64,12 @@ namespace Business.Repositories.BasketRepository
             return new SuccessDataResult<Basket>(await _basketDal.Get(p => p.Id == id));
         }
 
+        //[SecuredAspect()]
+        [CacheAspect()]
+        [PerformanceAspect()]
+        public async Task<IDataResult<List<BasketListDto>>> GetListByCustomerId(int customerId) 
+        {
+            return new SuccessDataResult<List<BasketListDto>>(await _basketDal.GetListByCustomerId(customerId)); 
+        }
     }
 }
