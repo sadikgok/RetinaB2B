@@ -30,5 +30,22 @@ namespace DataAccess.Repositories.ProductRepository
                 return await result.OrderBy(p => p.Name).ToListAsync();
             }
         }
+
+        public async Task<List<ProductListDto>> GetList()
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var result = from product in context.Products
+                             select new ProductListDto
+                             {
+                                 Id = product.Id,
+                                 Name = product.Name,
+                                 MainImageUrl = (context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Count() > 0
+                                 ? context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
+                                 : "")
+                             };
+                return await result.OrderBy(p => p.Name).ToListAsync();
+            }
+        }
     }
 }
