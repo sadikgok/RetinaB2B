@@ -47,13 +47,13 @@ namespace Business.Repositories.ProductRepository
             return new SuccessResult(ProductMessages.Updated);
         }
 
-        [SecuredAspect("admin,product.delete")]
+        //[SecuredAspect("admin,product.delete")]
         [RemoveCacheAspect("IProductService.Get")]
 
         public async Task<IResult> Delete(Product product)
         {
             var images = await _productImageService.GetListByProductId(product.Id);
-            foreach (var image in images)
+            foreach (var image in images.Data )
             {
                 await _productImageService.Delete(image);
             }
@@ -68,7 +68,7 @@ namespace Business.Repositories.ProductRepository
             return new SuccessResult(ProductMessages.Deleted);
         }
 
-        //[SecuredAspect("admin,product.get")]
+        //[SecuredAspect("admin,product.get")] 
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetList()
@@ -83,7 +83,6 @@ namespace Business.Repositories.ProductRepository
         }
 
         //[SecuredAspect("admin,product.get")]
-        [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetProductList(int customerId)
         {

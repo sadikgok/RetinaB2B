@@ -38,7 +38,7 @@ namespace Business.Repositories.ProductImageRepository
                                CheckIfImageSizeIsLessThanOneMb(image.Length));
                 if (result == null)
                 {
-                    string fileName = _fileService.FileSaveToServer(image, "./Content/img/");
+                    string fileName = _fileService.FileSaveToServer(image, @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/");
                     ProductImage productImage = new()
                     {
                         Id = 0,
@@ -65,10 +65,10 @@ namespace Business.Repositories.ProductImageRepository
             {
                 return result;
             }
-            string path = @"./Content/img/" + productImageUpdateDto.ImageUrl;
+            string path = @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/" + productImageUpdateDto.ImageUrl;
             _fileService.FileDeleteToServer(path);
 
-            string fileName = _fileService.FileSaveToServer(productImageUpdateDto.Image, "./Content/img/");
+            string fileName = _fileService.FileSaveToServer(productImageUpdateDto.Image, @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img");
             ProductImage productImage = new()
             {
                 Id = productImageUpdateDto.Id,
@@ -81,11 +81,11 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.Updated);
         }
 
-        //[SecuredAspect()]
+       // [SecuredAspect()]
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> Delete(ProductImage productImage)
         {
-            string path = @"./Content/img/" + productImage.ImageUrl;
+            string path = @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/" + productImage.ImageUrl;
             _fileService.FileDeleteToServer(path);
 
             await _productImageDal.Delete(productImage);
@@ -100,7 +100,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessDataResult<List<ProductImage>>(await _productImageDal.GetAll());
         }
 
-        [SecuredAspect()]
+       // [SecuredAspect()]
         public async Task<IDataResult<ProductImage>> GetById(int id)
         {
             return new SuccessDataResult<ProductImage>(await _productImageDal.Get(p => p.Id == id));
@@ -128,8 +128,8 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult();
         }
 
-        //[SecuredAspect()]
-        [TransactionAspect()]
+       // [SecuredAspect()]
+        [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> SetMainImage(int id)
         {
             var productImage = await _productImageDal.Get(p => p.Id == id);
@@ -145,9 +145,12 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.MainImagesIsUpdated);
         }
 
-        public async Task<List<ProductImage>> GetListByProductId(int productId)
+        //[SecuredAspect()]
+        //[CacheAspect()]
+        //[PerformanceAspect()]
+        public async Task<IDataResult<List<ProductImage>>> GetListByProductId(int productId)
         {
-            return await _productImageDal.GetAll(p => p.ProductId == productId);
+            return new SuccessDataResult<List<ProductImage>>(await _productImageDal.GetAll(p => p.ProductId == productId));
         }
     }
 }

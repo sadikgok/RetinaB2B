@@ -8,6 +8,7 @@ using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.PriceListDetailRepository;
 using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Repositories.PriceListDetailRepository
 {
@@ -49,7 +50,7 @@ namespace Business.Repositories.PriceListDetailRepository
             return new SuccessResult(PriceListDetailMessages.Deleted);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<PriceListDetail>>> GetList()
@@ -57,7 +58,15 @@ namespace Business.Repositories.PriceListDetailRepository
             return new SuccessDataResult<List<PriceListDetail>>(await _priceListDetailDal.GetAll());
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
+        [CacheAspect()]
+        [PerformanceAspect()]
+        public async Task<IDataResult<List<PriceListDetailDto>>> GetListDto(int priceListId)
+        {
+            return new SuccessDataResult<List<PriceListDetailDto>>(await _priceListDetailDal.GetListDto(priceListId));
+        }
+
+        //[SecuredAspect()]
         public async Task<IDataResult<PriceListDetail>> GetById(int id)
         {
             return new SuccessDataResult<PriceListDetail>(await _priceListDetailDal.Get(p => p.Id == id));
