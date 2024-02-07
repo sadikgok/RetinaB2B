@@ -4,6 +4,7 @@ using Business.Repositories.PriceListDetailRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
 using Core.Aspects.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.PriceListDetailRepository;
@@ -27,8 +28,22 @@ namespace Business.Repositories.PriceListDetailRepository
 
         public async Task<IResult> Add(PriceListDetail priceListDetail)
         {
+            IResult result = BusinessRules.Run(await CheckIfProductExist(priceListDetail));
+            if (result != null)
+            {
+                return result;
+            }
             await _priceListDetailDal.Add(priceListDetail);
             return new SuccessResult(PriceListDetailMessages.Added);
+        }
+        private async Task<IResult> CheckIfProductExist(PriceListDetail priceListDetail)
+        {
+            var result = await _priceListDetailDal.Get(p => p.PriceListId == priceListDetail.PriceListId && p.ProductId == priceListDetail.ProductId);
+            if (result != null)
+            {
+                return new ErrorResult("Bu ürün daha önce fiyat listesine eklenmiþ");
+            }
+            return new SuccessResult();
         }
 
         [SecuredAspect()]
@@ -72,9 +87,9 @@ namespace Business.Repositories.PriceListDetailRepository
             return new SuccessDataResult<PriceListDetail>(await _priceListDetailDal.Get(p => p.Id == id));
         }
 
-        public Task<List<PriceListDetail>> GetListByProductId(int productId)
+        public async Task<List<PriceListDetail>> GetListByProductId(int productId)
         {
-            return _priceListDetailDal.GetAll(p => p.ProductId == productId);
+            return await _priceListDetailDal.GetAll(p => p.ProductId == productId);
         }
     }
 }
