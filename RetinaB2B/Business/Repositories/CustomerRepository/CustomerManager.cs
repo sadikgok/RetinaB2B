@@ -1,6 +1,8 @@
 using Business.Aspects.Secured;
+using Business.Repositories.CustomerReliationshipRepository;
 using Business.Repositories.CustomerRepository.Constants;
 using Business.Repositories.CustomerRepository.Validation;
+using Business.Repositories.OrderRepository;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
 using Core.Aspects.Validation;
@@ -17,10 +19,13 @@ namespace Business.Repositories.CustomerRepository
     public class CustomerManager : ICustomerService
     {
         private readonly ICustomerDal _customerDal;
-
-        public CustomerManager(ICustomerDal customerDal)
+        private readonly ICustomerReliationshipService _customerReliationshipService;
+        private readonly IOrderService _orderService;
+        public CustomerManager(ICustomerDal customerDal, ICustomerReliationshipService customerReliationshipService, IOrderService orderService)
         {
             _customerDal = customerDal;
+            _customerReliationshipService = customerReliationshipService;
+            _orderService = orderService;
         }
 
         //[SecuredAspect()]
@@ -52,7 +57,7 @@ namespace Business.Repositories.CustomerRepository
             return new SuccessResult(CustomerMessages.Added);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(CustomerValidator))]
         [RemoveCacheAspect("ICustomerService.Get")]
 
@@ -62,24 +67,46 @@ namespace Business.Repositories.CustomerRepository
             return new SuccessResult(CustomerMessages.Updated);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [RemoveCacheAspect("ICustomerService.Get")]
 
         public async Task<IResult> Delete(Customer customer)
         {
+            IResult result = BusinessRules.Run(await CheckIfCustomerOrderExist(customer.Id));
+            if (result != null)
+            {
+                return result;
+            }
+
+            var customerRelationship = await _customerReliationshipService.GetByCustomerId(customer.Id);
+            if (customerRelationship.Data != null)
+            {
+                await _customerReliationshipService.Delete(customerRelationship.Data);
+            }
             await _customerDal.Delete(customer);
             return new SuccessResult(CustomerMessages.Deleted);
         }
 
-        [SecuredAspect()]
-        [CacheAspect()]
-        [PerformanceAspect()]
-        public async Task<IDataResult<List<Customer>>> GetList()
+        public async Task<IResult> CheckIfCustomerOrderExist(int customerId)
         {
-            return new SuccessDataResult<List<Customer>>(await _customerDal.GetAll());
+            var result
+                = await _orderService.GetListByCustomerId(customerId);
+            if (result.Data.Count > 0)
+            {
+                return new ErrorResult("Sipariþi bulunan müþteri kaydý silinemez");
+            }
+            return new SuccessResult();
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
+        [CacheAspect()]
+        [PerformanceAspect()]
+        public async Task<IDataResult<List<CustomerDto>>> GetList()
+        {
+            return new SuccessDataResult<List<CustomerDto>>(await _customerDal.GetListDto());
+        }
+
+        //[SecuredAspect()]
         public async Task<IDataResult<Customer>> GetById(int id)
         {
             return new SuccessDataResult<Customer>(await _customerDal.Get(p => p.Id == id));
@@ -99,6 +126,18 @@ namespace Business.Repositories.CustomerRepository
                 return new ErrorResult("Bu mail adresi daha önce kullanýlmýþ");
             }
             return new SuccessResult();
+        }
+
+        //[SecuredAspect()]
+        public async Task<IResult> ChangePasswordByAdminPanel(CustomerChangePasswordByAdminPanelDto customerDto)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePassword(customerDto.Password, out passwordHash, out passwordSalt);
+            var customer = await _customerDal.Get(p => p.Id == customerDto.Id);
+            customer.PasswordHash = passwordHash;
+            customer.PasswordSalt = passwordSalt;
+            await _customerDal.Update(customer);
+            return new SuccessResult(CustomerMessages.ChangePassword);
         }
     }
 }

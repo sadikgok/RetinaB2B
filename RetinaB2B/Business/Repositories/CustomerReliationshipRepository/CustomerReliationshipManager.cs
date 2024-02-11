@@ -63,5 +63,10 @@ namespace Business.Repositories.CustomerReliationshipRepository
             return new SuccessDataResult<CustomerReliationship>(await _customerReliationshipDal.Get(p => p.Id == id));
         }
 
+        [SecuredAspect()]
+        public async Task<IDataResult<CustomerReliationship>> GetByCustomerId(int customerId) 
+        {
+            return new SuccessDataResult<CustomerReliationship>(await _customerReliationshipDal.Get(p => p.CustomerId == customerId));
+        }
     }
 }
