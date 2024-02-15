@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Entities.Concrete;
 using Core.Utilities.Result.Abstract;
+using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Repositories.OrderDetailRepository
 {
@@ -14,6 +10,7 @@ namespace Business.Repositories.OrderDetailRepository
         Task<IResult> Update(OrderDetail orderDetail);
         Task<IResult> Delete(OrderDetail orderDetail);
         Task<IDataResult<List<OrderDetail>>> GetList(int orderId);
+        Task<IDataResult<List<OrderDetailDto>>> GetListDto(int orderId);
         Task<IDataResult<OrderDetail>> GetById(int id);
     }
 }

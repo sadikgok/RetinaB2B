@@ -30,12 +30,22 @@ namespace Business.Repositories.CustomerReliationshipRepository
             return new SuccessResult(CustomerReliationshipMessages.Added);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(CustomerReliationshipValidator))]
         [RemoveCacheAspect("ICustomerReliationshipService.Get")]
-
+        [RemoveCacheAspect("ICustomerService.Get")]
         public async Task<IResult> Update(CustomerReliationship customerReliationship)
         {
+            var result = await _customerReliationshipDal.Get(p => p.CustomerId == customerReliationship.CustomerId);
+            if (result != null)
+            {
+                customerReliationship.Id = result.Id;
+                await _customerReliationshipDal.Update(customerReliationship);
+            }
+            else
+            {
+                await _customerReliationshipDal.Add(customerReliationship);
+            }
             await _customerReliationshipDal.Update(customerReliationship);
             return new SuccessResult(CustomerReliationshipMessages.Updated);
         }
@@ -64,7 +74,7 @@ namespace Business.Repositories.CustomerReliationshipRepository
         }
 
         [SecuredAspect()]
-        public async Task<IDataResult<CustomerReliationship>> GetByCustomerId(int customerId) 
+        public async Task<IDataResult<CustomerReliationship>> GetByCustomerId(int customerId)
         {
             return new SuccessDataResult<CustomerReliationship>(await _customerReliationshipDal.Get(p => p.CustomerId == customerId));
         }

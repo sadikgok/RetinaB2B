@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Repositories.OrderDetailRepository;
-using Entities.Concrete;
 using Business.Aspects.Secured;
-using Core.Aspects.Validation;
+using Business.Repositories.OrderDetailRepository.Constants;
+using Business.Repositories.OrderDetailRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
-using Business.Repositories.OrderDetailRepository.Validation;
-using Business.Repositories.OrderDetailRepository.Constants;
+using Core.Aspects.Validation;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.OrderDetailRepository;
+using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Repositories.OrderDetailRepository
 {
@@ -60,7 +55,15 @@ namespace Business.Repositories.OrderDetailRepository
         [PerformanceAspect()]
         public async Task<IDataResult<List<OrderDetail>>> GetList(int orderId)
         {
-            return new SuccessDataResult<List<OrderDetail>>(await _orderDetailDal.GetAll(p=>p.OrderId==orderId));
+            return new SuccessDataResult<List<OrderDetail>>(await _orderDetailDal.GetAll(p => p.OrderId == orderId));
+        }
+
+        //[SecuredAspect()]
+        [CacheAspect()]
+        [PerformanceAspect()]
+        public async Task<IDataResult<List<OrderDetailDto>>> GetListDto(int orderId)
+        {
+            return new SuccessDataResult<List<OrderDetailDto>>(await _orderDetailDal.GetListDto(orderId));
         }
 
         [SecuredAspect()]

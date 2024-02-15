@@ -10,6 +10,7 @@ using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.OrderRepository;
 using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Repositories.OrderRepository
 {
@@ -92,7 +93,7 @@ namespace Business.Repositories.OrderRepository
             return new SuccessResult(OrderMessages.Deleted);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<Order>>> GetList()
@@ -114,5 +115,18 @@ namespace Business.Repositories.OrderRepository
             return new SuccessDataResult<Order>(await _orderDal.Get(p => p.Id == id));
         }
 
+        //[SecuredAspect()]
+        public async Task<IDataResult<OrderDto>> GetByIdDto(int id)
+        {
+            return new SuccessDataResult<OrderDto>(await _orderDal.GetByIdDto(id));
+        }
+
+        //[SecuredAspect()]
+        [CacheAspect()]
+        [PerformanceAspect()]
+        public async Task<IDataResult<List<OrderDto>>> GetListDto()
+        {
+            return new SuccessDataResult<List<OrderDto>>(await _orderDal.GetListDto());
+        }
     }
 }
