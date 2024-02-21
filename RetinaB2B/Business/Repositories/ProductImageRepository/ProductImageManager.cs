@@ -1,10 +1,8 @@
 using Business.Abstract;
-using Business.Aspects.Secured;
 using Business.Repositories.ProductImageRepository.Constants;
 using Business.Repositories.ProductImageRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
-using Core.Aspects.Transaction;
 using Core.Aspects.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Result.Abstract;
@@ -31,24 +29,32 @@ namespace Business.Repositories.ProductImageRepository
 
         public async Task<IResult> Add(ProductImageAddDto productImageAddDto)
         {
-            foreach (var image in productImageAddDto.Images)
+            if (productImageAddDto.Images != null)
             {
-                IResult result = BusinessRules.Run(
-                               CheckIfImageExtesionsAllow(image.FileName),
-                               CheckIfImageSizeIsLessThanOneMb(image.Length));
-                if (result == null)
+                foreach (var image in productImageAddDto.Images)
                 {
-                    string fileName = _fileService.FileSaveToServer(image, @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/");
-                    ProductImage productImage = new()
+                    IResult result = BusinessRules.Run(
+                                   CheckIfImageExtesionsAllow(image.FileName),
+                                   CheckIfImageSizeIsLessThanOneMb(image.Length));
+                    if (result == null)
                     {
-                        Id = 0,
-                        ImageUrl = fileName,
-                        ProductId = productImageAddDto.ProductId,
-                        IsMainImage = false
-                    };
-                    await _productImageDal.Add(productImage);
+                        string fileName = _fileService.FileSaveToServer(image, @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/");
+                        ProductImage productImage = new()
+                        {
+                            Id = 0,
+                            ImageUrl = fileName,
+                            ProductId = productImageAddDto.ProductId,
+                            IsMainImage = false
+                        };
+                        await _productImageDal.Add(productImage);
+                    }
                 }
             }
+            else
+            {
+                return new ErrorResult("Lütfen resim seçiniz");
+            }
+
 
             return new SuccessResult(ProductImageMessages.Added);
         }
@@ -81,7 +87,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.Updated);
         }
 
-       // [SecuredAspect()]
+        // [SecuredAspect()]
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> Delete(ProductImage productImage)
         {
@@ -100,7 +106,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessDataResult<List<ProductImage>>(await _productImageDal.GetAll());
         }
 
-       // [SecuredAspect()]
+        // [SecuredAspect()]
         public async Task<IDataResult<ProductImage>> GetById(int id)
         {
             return new SuccessDataResult<ProductImage>(await _productImageDal.Get(p => p.Id == id));
@@ -128,7 +134,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult();
         }
 
-       // [SecuredAspect()]
+        // [SecuredAspect()]
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> SetMainImage(int id)
         {

@@ -70,7 +70,7 @@ namespace Business.Repositories.ProductRepository
         }
 
         //[SecuredAspect("admin,product.get")] 
-        [CacheAspect()]
+        //[CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetList()
         {

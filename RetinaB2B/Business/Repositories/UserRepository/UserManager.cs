@@ -81,7 +81,7 @@ namespace Business.Repositories.UserRepository
             return result;
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(UserValidator))]
         [RemoveCacheAspect("IUserService.Get")]
         public async Task<IResult> Update(User user)
@@ -90,7 +90,33 @@ namespace Business.Repositories.UserRepository
             return new SuccessResult(UserMessages.UpdatedUser);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
+        [RemoveCacheAspect("IUserService.Get")]
+        public async Task<IResult> UpdateUserByAdminPanel(UserDto user)
+        {
+            var userEntity = await _userDal.Get(p => p.Id == user.Id);
+            var result = HashingHelper.VerifyPasswordHash(user.Password, userEntity.PasswordHash, userEntity.PasswordSalt);
+            if (result)
+            {
+                if (user.NewPassword != "")
+                {
+                    byte[] passwordHash, passwordSalt;
+                    HashingHelper.CreatePassword(user.NewPassword, out passwordHash, out passwordSalt);
+                    userEntity.PasswordHash = passwordHash;
+                    userEntity.PasswordSalt = passwordSalt;
+                }
+
+                userEntity.Name = user.Name;
+                await _userDal.Update(userEntity);
+                return new SuccessResult(UserMessages.UpdatedUser);
+            }
+            else
+            {
+                return new ErrorResult("Şifreniz mevcut şifreniz ile aynı değil...");
+            }
+        }
+
+        //[SecuredAspect()]
         [RemoveCacheAspect("IUserService.Get")]
         public async Task<IResult> Delete(User user)
         {

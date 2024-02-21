@@ -1,9 +1,6 @@
 ﻿using Business.Abstract;
-using Business.Aspects.Secured;
 using Business.Repositories.CustomerRepository;
 using Business.Repositories.UserRepository;
-using Business.ValidationRules.FluentValidation;
-using Core.Aspects.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Hashing;
 using Core.Utilities.Result.Abstract;
@@ -68,7 +65,7 @@ namespace Business.Authentication
             return new ErrorDataResult<CustomerToken>("Kullanıcı maili ya da şifre bilgisi yanlış");
         }
 
-        [ValidationAspect(typeof(AuthValidator))]
+        //[ValidationAspect(typeof(AuthValidator))]
         public async Task<IResult> Register(RegisterAuthDto registerDto)
         {
             IResult result = BusinessRules.Run(

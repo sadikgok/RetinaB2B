@@ -27,7 +27,7 @@ namespace Business.Repositories.OrderRepository
             _orderDetailService = orderDetailService;
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(OrderValidator))]
         [RemoveCacheAspect("IOrderService.Get")]
 
@@ -69,7 +69,7 @@ namespace Business.Repositories.OrderRepository
             return new SuccessResult(OrderMessages.Added);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(OrderValidator))]
         [RemoveCacheAspect("IOrderService.Get")]
 
@@ -79,9 +79,9 @@ namespace Business.Repositories.OrderRepository
             return new SuccessResult(OrderMessages.Updated);
         }
 
+
         //[SecuredAspect()]
         [RemoveCacheAspect("IOrderService.Get")]
-
         public async Task<IResult> Delete(Order order)
         {
             var details = await _orderDetailService.GetList(order.Id);
@@ -109,7 +109,7 @@ namespace Business.Repositories.OrderRepository
             return new SuccessDataResult<List<Order>>(await _orderDal.GetAll(p => p.CustomerId == customerId));
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         public async Task<IDataResult<Order>> GetById(int id)
         {
             return new SuccessDataResult<Order>(await _orderDal.Get(p => p.Id == id));

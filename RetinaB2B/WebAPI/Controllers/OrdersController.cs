@@ -15,7 +15,7 @@ namespace WebApi.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("[action]/{customerId}")]
         public async Task<IActionResult> Add(int customerId)
         {
             var result = await _orderService.Add(customerId);

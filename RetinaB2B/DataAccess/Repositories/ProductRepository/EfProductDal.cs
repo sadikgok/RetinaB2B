@@ -12,22 +12,42 @@ namespace DataAccess.Repositories.ProductRepository
         {
             using (var context = new SimpleContextDb())
             {
-                var customerReliationship = context.CustomerReliationships.Where(p => p.CustomerId == customerId).SingleOrDefault();
-                var result = from product in context.Products
-                             select new ProductListDto
-                             {
-                                 Id = product.Id,
-                                 Name = product.Name,
-                                 Discount = customerReliationship.Discount,
-                                 Price = context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Count() > 0
-                                 ? context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Select(s => s.Price).FirstOrDefault()
-                                 : 0,
-                                 MainImageUrl = (context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Count() > 0
-                                 ? context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
-                                 : ""),
-                                 Image = context.ProductImages.Where(p => p.ProductId == product.Id).Select(s => s.ImageUrl).ToList()
-                             };
-                return await result.OrderBy(p => p.Name).ToListAsync();
+                if (customerId != 0)
+                {
+                    var customerReliationship = context.CustomerReliationships.Where(p => p.CustomerId == customerId).SingleOrDefault();
+                    var result = from product in context.Products
+                                 select new ProductListDto
+                                 {
+                                     Id = product.Id,
+                                     Name = product.Name,
+                                     Discount = customerReliationship.Discount,
+                                     Price = context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Count() > 0
+                                     ? context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Select(s => s.Price).FirstOrDefault()
+                                     : 0,
+                                     MainImageUrl = (context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Count() > 0
+                                     ? context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
+                                     : ""),
+                                     Image = context.ProductImages.Where(p => p.ProductId == product.Id).Select(s => s.ImageUrl).ToList()
+                                 };
+                    return await result.OrderBy(p => p.Name).ToListAsync();
+                }
+                else
+                {
+                    var result = from product in context.Products
+                                 select new ProductListDto
+                                 {
+                                     Id = product.Id,
+                                     Name = product.Name,
+                                     Discount = 0,
+                                     Price = 0,
+                                     MainImageUrl = (context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Count() > 0
+                                     ? context.ProductImages.Where(p => p.ProductId == product.Id && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
+                                     : ""),
+                                     Image = context.ProductImages.Where(p => p.ProductId == product.Id).Select(s => s.ImageUrl).ToList()
+                                 };
+                    return await result.OrderBy(p => p.Name).ToListAsync();
+                }
+
             }
         }
 
