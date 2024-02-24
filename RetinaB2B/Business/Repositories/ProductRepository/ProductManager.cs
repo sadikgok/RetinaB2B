@@ -69,21 +69,21 @@ namespace Business.Repositories.ProductRepository
             return new SuccessResult(ProductMessages.Deleted);
         }
 
-        //[SecuredAspect("admin,product.get")] 
-        //[CacheAspect()]
+        [SecuredAspect("admin,product.get")] 
+        [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetList()
         {
             return new SuccessDataResult<List<ProductListDto>>(await _productDal.GetList());
         }
 
-        //[SecuredAspect("admin,product.get")]
+        [SecuredAspect("admin,product.get")]
         public async Task<IDataResult<Product>> GetById(int id)
         {
             return new SuccessDataResult<Product>(await _productDal.Get(p => p.Id == id));
         }
 
-        //[SecuredAspect("admin,product.get")]
+        [SecuredAspect("admin,product.get")]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetProductList(int customerId)
         {

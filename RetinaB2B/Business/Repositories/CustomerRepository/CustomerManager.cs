@@ -98,7 +98,7 @@ namespace Business.Repositories.CustomerRepository
             return new SuccessResult();
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<CustomerDto>>> GetList()
@@ -106,13 +106,13 @@ namespace Business.Repositories.CustomerRepository
             return new SuccessDataResult<List<CustomerDto>>(await _customerDal.GetListDto());
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         public async Task<IDataResult<Customer>> GetById(int id)
         {
             return new SuccessDataResult<Customer>(await _customerDal.Get(p => p.Id == id));
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         public async Task<IDataResult<CustomerDto>> GetDtoById(int id)
         {
             return new SuccessDataResult<CustomerDto>(await _customerDal.GetDto(id));
