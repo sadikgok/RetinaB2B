@@ -1,4 +1,5 @@
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Context.EntityFramework
@@ -23,5 +24,10 @@ namespace DataAccess.Context.EntityFramework
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<PriceList> PriceLists { get; set; }
         public DbSet<Product> Products { get; set; }
-    }
+        public DbSet<Stok> Stoklar { get; set; }
+        public DbSet<StokBakiyesi> StokBakiyeleri { get; set; } 
+        public DbSet<StokGrup> StokGruplari { get; set; }
+        public DbSet<StokHareket> StokHareketleri { get; set; }      
+        public DbSet<Depo> Depolar { get; set; }
+    } 
 }

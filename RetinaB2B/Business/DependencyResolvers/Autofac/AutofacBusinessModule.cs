@@ -29,6 +29,16 @@ using Business.Repositories.PriceListRepository;
 using DataAccess.Repositories.PriceListRepository;
 using Business.Repositories.ProductRepository;
 using DataAccess.Repositories.ProductRepository;
+using Business.Repositories.StokRepository;
+using DataAccess.Repositories.StokRepository;
+using Business.Repositories.StokBakiyesiRepository;
+using DataAccess.Repositories.StokBakiyesiRepository;
+using Business.Repositories.StokGrupRepository;
+using DataAccess.Repositories.StokGrupRepository;
+using Business.Repositories.StokHareketRepository;
+using DataAccess.Repositories.StokHareketRepository;
+using Business.Repositories.DepoRepository;
+using DataAccess.Repositories.DepoRepository;
 using DataAccess.Repositories.UserRepository;
 
 namespace Business.DependencyResolvers.Autofac
@@ -79,6 +89,21 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
+
+            builder.RegisterType<StokManager>().As<IStokService>().SingleInstance();
+            builder.RegisterType<EfStokDal>().As<IStokDal>().SingleInstance();
+
+            builder.RegisterType<StokBakiyesiManager>().As<IStokBakiyesiService>().SingleInstance();
+            builder.RegisterType<EfStokBakiyesiDal>().As<IStokBakiyesiDal>().SingleInstance();
+
+            builder.RegisterType<StokGrupManager>().As<IStokGrupService>().SingleInstance();
+            builder.RegisterType<EfStokGrupDal>().As<IStokGrupDal>().SingleInstance();
+
+            builder.RegisterType<StokHareketManager>().As<IStokHareketService>().SingleInstance();
+            builder.RegisterType<EfStokHareketDal>().As<IStokHareketDal>().SingleInstance();
+
+            builder.RegisterType<DepoManager>().As<IDepoService>().SingleInstance();
+            builder.RegisterType<EfDepoDal>().As<IDepoDal>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
