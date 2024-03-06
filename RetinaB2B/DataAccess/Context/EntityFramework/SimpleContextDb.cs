@@ -29,5 +29,9 @@ namespace DataAccess.Context.EntityFramework
         public DbSet<StokGrup> StokGruplari { get; set; }
         public DbSet<StokHareket> StokHareketleri { get; set; }      
         public DbSet<Depo> Depolar { get; set; }
+        public DbSet<Kasa> Kasalar { get; set; } 
+        public DbSet<KasaHareket> KasaHareketleri { get; set; } 
+        public DbSet<Islem> Islemler { get; set; }
+        public DbSet<Islem> Islems { get; set; }
     } 
 }

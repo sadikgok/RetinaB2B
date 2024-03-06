@@ -39,6 +39,12 @@ using Business.Repositories.StokHareketRepository;
 using DataAccess.Repositories.StokHareketRepository;
 using Business.Repositories.DepoRepository;
 using DataAccess.Repositories.DepoRepository;
+using Business.Repositories.KasaRepository;
+using DataAccess.Repositories.KasaRepository;
+using Business.Repositories.KasaHareketRepository;
+using DataAccess.Repositories.KasaHareketRepository;
+using Business.Repositories.IslemRepository;
+using DataAccess.Repositories.IslemRepository;
 using DataAccess.Repositories.UserRepository;
 
 namespace Business.DependencyResolvers.Autofac
@@ -104,6 +110,15 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<DepoManager>().As<IDepoService>().SingleInstance();
             builder.RegisterType<EfDepoDal>().As<IDepoDal>().SingleInstance();
+
+            builder.RegisterType<KasaManager>().As<IKasaService>().SingleInstance();
+            builder.RegisterType<EfKasaDal>().As<IKasaDal>().SingleInstance();
+
+            builder.RegisterType<KasaHareketManager>().As<IKasaHareketService>().SingleInstance();
+            builder.RegisterType<EfKasaHareketDal>().As<IKasaHareketDal>().SingleInstance();
+
+            builder.RegisterType<IslemManager>().As<IIslemService>().SingleInstance();
+            builder.RegisterType<EfIslemDal>().As<IIslemDal>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
