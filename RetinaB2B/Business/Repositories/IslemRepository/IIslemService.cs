@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Entities.Concrete;
 using Core.Utilities.Result.Abstract;
+using Entities.Concrete;
 
 namespace Business.Repositories.IslemRepository
 {
@@ -15,5 +10,6 @@ namespace Business.Repositories.IslemRepository
         Task<IResult> Delete(Islem ıslem);
         Task<IDataResult<List<Islem>>> GetList();
         Task<IDataResult<Islem>> GetById(int id);
+        int GetLastIslemId();
     }
 }

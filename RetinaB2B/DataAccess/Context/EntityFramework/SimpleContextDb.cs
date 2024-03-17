@@ -32,6 +32,5 @@ namespace DataAccess.Context.EntityFramework
         public DbSet<Kasa> Kasalar { get; set; } 
         public DbSet<KasaHareket> KasaHareketleri { get; set; } 
         public DbSet<Islem> Islemler { get; set; }
-        public DbSet<Islem> Islems { get; set; }
     } 
 }

@@ -70,5 +70,12 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetLastIslemId()
+        {
+            var result = _ıslemService.GetLastIslemId();
+            return Ok(result);
+        }
+
     }
 }

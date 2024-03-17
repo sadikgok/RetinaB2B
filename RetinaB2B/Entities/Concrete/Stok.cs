@@ -43,7 +43,7 @@ namespace Entities.Concrete
 
         [StringLength(50)]
         public string ParaBirimi { get; set; }
-        public byte[] Image { get; set; }
+        //public byte[] Image { get; set; }
 
         public decimal? ToptanKKSatis { get; set; }
 

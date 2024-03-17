@@ -14,6 +14,5 @@ namespace Entities.Dtos
 
         [Column(TypeName = "text")]
         public string KasaHareketAciklama { get; set; }
-
     }
 }

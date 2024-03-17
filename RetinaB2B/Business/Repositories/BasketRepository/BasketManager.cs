@@ -21,7 +21,7 @@ namespace Business.Repositories.BasketRepository
             _basketDal = basketDal;
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [ValidationAspect(typeof(BasketValidator))]
         [RemoveCacheAspect("IBasketService.Get")]
 
@@ -41,7 +41,7 @@ namespace Business.Repositories.BasketRepository
             return new SuccessResult(BasketMessages.Updated);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [RemoveCacheAspect("IBasketService.Get")]
 
         public async Task<IResult> Delete(Basket basket)
@@ -50,7 +50,7 @@ namespace Business.Repositories.BasketRepository
             return new SuccessResult(BasketMessages.Deleted);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<Basket>>> GetList()
@@ -64,7 +64,7 @@ namespace Business.Repositories.BasketRepository
             return new SuccessDataResult<Basket>(await _basketDal.Get(p => p.Id == id));
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<BasketListDto>>> GetListByCustomerId(int customerId) 

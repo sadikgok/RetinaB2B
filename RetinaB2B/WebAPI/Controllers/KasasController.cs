@@ -1,6 +1,7 @@
 using Business.Repositories.KasaRepository;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace WebApi.Controllers
 {
@@ -60,15 +61,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]/{kasaId}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int kasaId)
         {
-            var result = await _kasaService.GetById(id);
+            var result = await _kasaService.GetById(kasaId);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result.Message);
         }
-
     }
 }

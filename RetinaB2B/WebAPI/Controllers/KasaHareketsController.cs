@@ -1,6 +1,8 @@
 using Business.Repositories.KasaHareketRepository;
+using Business.Repositories.ProductRepository;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebApi.Controllers
 {

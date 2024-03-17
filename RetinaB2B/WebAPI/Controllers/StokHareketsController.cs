@@ -70,5 +70,14 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("[action]/{stokId}")]
+        public async Task<IActionResult> GetStokHareketByStokId(int stokId)
+        {
+            var result = await _stokHareketService.GetStokHareketByStokId(stokId);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result.Message);
+        }
+
     }
 }

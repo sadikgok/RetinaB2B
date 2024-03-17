@@ -14,6 +14,7 @@ using Business.Repositories.StokHareketRepository.Constants;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.StokHareketRepository;
+using Entities.Dtos;
 
 namespace Business.Repositories.StokHareketRepository
 {
@@ -69,5 +70,10 @@ namespace Business.Repositories.StokHareketRepository
             return new SuccessDataResult<StokHareket>(await _stokHareketDal.Get(p => p.StokId == id));
         }
 
+        [SecuredAspect()]
+        public async Task<IDataResult<List<StokHareketDto>>> GetStokHareketByStokId(int stokId)
+        {
+            return new SuccessDataResult<List<StokHareketDto>>(await _stokHareketDal.GetStokHareketByStokId(stokId));
+        }
     }
 }

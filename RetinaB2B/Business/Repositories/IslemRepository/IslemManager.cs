@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Repositories.IslemRepository;
-using Entities.Concrete;
 using Business.Aspects.Secured;
-using Core.Aspects.Validation;
+using Business.Repositories.IslemRepository.Constants;
+using Business.Repositories.IslemRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
-using Business.Repositories.IslemRepository.Validation;
-using Business.Repositories.IslemRepository.Constants;
+using Core.Aspects.Validation;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.IslemRepository;
+using Entities.Concrete;
 
 namespace Business.Repositories.IslemRepository
 {
@@ -55,7 +49,7 @@ namespace Business.Repositories.IslemRepository
             return new SuccessResult(IslemMessages.Deleted);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<Islem>>> GetList()
@@ -63,11 +57,15 @@ namespace Business.Repositories.IslemRepository
             return new SuccessDataResult<List<Islem>>(await _ıslemDal.GetAll());
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         public async Task<IDataResult<Islem>> GetById(int id)
         {
-            return new SuccessDataResult<Islem>(await _ıslemDal.Get(p => p.Id == id));
+            return new SuccessDataResult<Islem>(await _ıslemDal.Get(p => p.IslemId == id));
         }
 
+        public int GetLastIslemId()
+        {
+            return _ıslemDal.GetLastIslemId();
+        }
     }
 }

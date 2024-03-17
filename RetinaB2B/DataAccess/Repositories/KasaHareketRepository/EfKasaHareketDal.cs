@@ -25,6 +25,7 @@ namespace DataAccess.Repositories.KasaHareketRepository
                                  KasaHareketAciklama = kasaHareket.KasaHareketAciklama
                              };
                 return await result.OrderByDescending(p => p.IslemTarihi).ToListAsync();
+              
             }
         }
     }

@@ -65,8 +65,6 @@ namespace Business.Repositories.KasaHareketRepository
         }
 
         [SecuredAspect()]
-        [CacheAspect()]
-        [PerformanceAspect()]
         public async Task<IDataResult<List<KasaHareketDto>>> GetKasaHareketByKasaId(int kasaId)
         {
             return new SuccessDataResult<List<KasaHareketDto>>(await _kasaHareketDal.GetKasaHareketByKasaId(kasaId));
