@@ -1,4 +1,5 @@
 using Business.Abstract;
+using Business.Aspects.Secured;
 using Business.Repositories.ProductImageRepository.Constants;
 using Business.Repositories.ProductImageRepository.Validation;
 using Core.Aspects.Caching;
@@ -23,7 +24,7 @@ namespace Business.Repositories.ProductImageRepository
             _fileService = fileService;
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [ValidationAspect(typeof(ProductImageValidator))]
         [RemoveCacheAspect("IProductImageService.Get")]
 
@@ -43,7 +44,7 @@ namespace Business.Repositories.ProductImageRepository
                         {
                             Id = 0,
                             ImageUrl = fileName,
-                            ProductId = productImageAddDto.ProductId,
+                            StokId = productImageAddDto.StokId,
                             IsMainImage = false
                         };
                         await _productImageDal.Add(productImage);
@@ -54,12 +55,10 @@ namespace Business.Repositories.ProductImageRepository
             {
                 return new ErrorResult("Lütfen resim seçiniz");
             }
-
-
             return new SuccessResult(ProductImageMessages.Added);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [ValidationAspect(typeof(ProductImageValidator))]
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> Update(ProductImageUpdateDto productImageUpdateDto)
@@ -79,7 +78,7 @@ namespace Business.Repositories.ProductImageRepository
             {
                 Id = productImageUpdateDto.Id,
                 ImageUrl = fileName,
-                ProductId = productImageUpdateDto.ProductId,
+                StokId = productImageUpdateDto.StokId,
                 IsMainImage = productImageUpdateDto.IsMainImage
             };
 
@@ -87,7 +86,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.Updated);
         }
 
-        // [SecuredAspect()]
+        [SecuredAspect()]
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> Delete(ProductImage productImage)
         {
@@ -98,7 +97,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.Deleted);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductImage>>> GetList()
@@ -106,7 +105,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessDataResult<List<ProductImage>>(await _productImageDal.GetAll());
         }
 
-        // [SecuredAspect()]
+        [SecuredAspect()]
         public async Task<IDataResult<ProductImage>> GetById(int id)
         {
             return new SuccessDataResult<ProductImage>(await _productImageDal.Get(p => p.Id == id));
@@ -134,12 +133,12 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult();
         }
 
-        // [SecuredAspect()]
+        [SecuredAspect()]
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> SetMainImage(int id)
         {
             var productImage = await _productImageDal.Get(p => p.Id == id);
-            var productImages = await _productImageDal.GetAll(p => p.ProductId == productImage.ProductId);
+            var productImages = await _productImageDal.GetAll(p => p.StokId == productImage.StokId);
             foreach (var item in productImages)
             {
                 item.IsMainImage = false;
@@ -151,12 +150,12 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.MainImagesIsUpdated);
         }
 
-        //[SecuredAspect()]
-        //[CacheAspect()]
-        //[PerformanceAspect()]
-        public async Task<IDataResult<List<ProductImage>>> GetListByProductId(int productId)
+        [SecuredAspect()]
+        [CacheAspect()]
+        [PerformanceAspect()]
+        public async Task<IDataResult<List<ProductImage>>> GetListByProductId(int stokId)
         {
-            return new SuccessDataResult<List<ProductImage>>(await _productImageDal.GetAll(p => p.ProductId == productId));
+            return new SuccessDataResult<List<ProductImage>>(await _productImageDal.GetAll(p => p.StokId == stokId));
         }
     }
 }

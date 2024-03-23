@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core.DataAccess.EntityFramework;
-using Entities.Concrete;
-using DataAccess.Repositories.ProductImageRepository;
 using DataAccess.Context.EntityFramework;
+using Entities.Concrete;
 
 namespace DataAccess.Repositories.ProductImageRepository
 {

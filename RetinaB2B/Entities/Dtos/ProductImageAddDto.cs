@@ -4,7 +4,7 @@ namespace Entities.Dtos
 {
     public class ProductImageAddDto
     {
-        public int ProductId { get; set; }
+        public int StokId { get; set; }
         public IFormFile[] Images { get; set; }
     }
 }

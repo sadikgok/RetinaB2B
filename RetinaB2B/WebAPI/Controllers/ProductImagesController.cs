@@ -82,10 +82,10 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("[action]/{productId}")]
-        public async Task<IActionResult> GetListByProductId(int productId)
+        [HttpGet("[action]/{stokId}")]
+        public async Task<IActionResult> GetListByProductId(int stokId)
         {
-            var result = await _productImageService.GetListByProductId(productId);
+            var result = await _productImageService.GetListByProductId(stokId);
             if (result.Success)
             {
                 return Ok(result);

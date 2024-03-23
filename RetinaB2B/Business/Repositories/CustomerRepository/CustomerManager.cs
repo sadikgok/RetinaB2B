@@ -28,7 +28,7 @@ namespace Business.Repositories.CustomerRepository
             _orderService = orderService;
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [ValidationAspect(typeof(CustomerValidator))]
         [RemoveCacheAspect("ICustomerService.Get")]
 
@@ -47,7 +47,6 @@ namespace Business.Repositories.CustomerRepository
             {
                 Id = 0,
                 Email = customerRegisterDto.Email,
-                Name = customerRegisterDto.Name,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
 
@@ -57,7 +56,7 @@ namespace Business.Repositories.CustomerRepository
             return new SuccessResult(CustomerMessages.Added);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [ValidationAspect(typeof(CustomerValidator))]
         [RemoveCacheAspect("ICustomerService.Get")]
 
@@ -67,7 +66,7 @@ namespace Business.Repositories.CustomerRepository
             return new SuccessResult(CustomerMessages.Updated);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [RemoveCacheAspect("ICustomerService.Get")]
 
         public async Task<IResult> Delete(Customer customer)
@@ -133,7 +132,7 @@ namespace Business.Repositories.CustomerRepository
             return new SuccessResult();
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         public async Task<IResult> ChangePasswordByAdminPanel(CustomerChangePasswordByAdminPanelDto customerDto)
         {
             byte[] passwordHash, passwordSalt;
