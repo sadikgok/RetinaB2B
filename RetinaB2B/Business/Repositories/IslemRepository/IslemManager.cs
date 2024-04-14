@@ -24,10 +24,9 @@ namespace Business.Repositories.IslemRepository
         [ValidationAspect(typeof(IslemValidator))]
         [RemoveCacheAspect("IIslemService.Get")]
 
-        public async Task<IResult> Add(Islem ıslem)
+        public async Task<int> Add(Islem entity)
         {
-            await _ıslemDal.Add(ıslem);
-            return new SuccessResult(IslemMessages.Added);
+            return await _ıslemDal.Add(entity);
         }
 
         [SecuredAspect()]
@@ -40,16 +39,16 @@ namespace Business.Repositories.IslemRepository
             return new SuccessResult(IslemMessages.Updated);
         }
 
-        [SecuredAspect()]
-        [RemoveCacheAspect("IIslemService.Get")]
+        //[SecuredAspect()]
+        //[RemoveCacheAspect("IIslemService.Get")]
 
-        public async Task<IResult> Delete(Islem ıslem)
+        public async Task<IResult> Delete(int islemId)
         {
-            await _ıslemDal.Delete(ıslem);
+            await _ıslemDal.Delete(new Islem { IslemId = islemId });
             return new SuccessResult(IslemMessages.Deleted);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<Islem>>> GetList()
@@ -57,7 +56,7 @@ namespace Business.Repositories.IslemRepository
             return new SuccessDataResult<List<Islem>>(await _ıslemDal.GetAll());
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         public async Task<IDataResult<Islem>> GetById(int id)
         {
             return new SuccessDataResult<Islem>(await _ıslemDal.Get(p => p.IslemId == id));
@@ -67,5 +66,7 @@ namespace Business.Repositories.IslemRepository
         {
             return _ıslemDal.GetLastIslemId();
         }
+
+
     }
 }

@@ -37,6 +37,9 @@ namespace DataAccess.Repositories.StokRepository
                                  SatisFiyati = (decimal)stok.SatisFiyati,
                                  AlisFiyati = (decimal)stok.AlisFiyati,
                                  ParaBirimi = stok.ParaBirimi,
+                                 MainImageUrl = (context.ProductImages.Where(p => p.StokId == stok.StokId && p.IsMainImage == true).Count() > 0
+                                 ? context.ProductImages.Where(p => p.StokId == stok.StokId && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
+                                 : "")
                              };
                 return await result.OrderByDescending(p => p.StokId).ToListAsync();
             }
@@ -59,8 +62,20 @@ namespace DataAccess.Repositories.StokRepository
                                  SatisFiyati = (decimal)stok.SatisFiyati,
                                  AlisFiyati = (decimal)stok.AlisFiyati,
                                  ParaBirimi = stok.ParaBirimi,
+                                 MainImageUrl = (context.ProductImages.Where(p => p.StokId == stok.StokId && p.IsMainImage == true).Count() > 0
+                                 ? context.ProductImages.Where(p => p.StokId == stok.StokId && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
+                                 : ""),
                              };
                 return await result.ToListAsync();
+            }
+        }
+
+        public async Task<Stok> GetStokByBarcode(string barcode)
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var result = context.Stoklar.FirstOrDefaultAsync(p => p.Barkod == barcode);
+                return await result;
             }
         }
     }

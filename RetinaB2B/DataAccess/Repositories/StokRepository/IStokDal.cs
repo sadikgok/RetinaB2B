@@ -9,6 +9,7 @@ namespace DataAccess.Repositories.StokRepository
         Task<List<DepoStokDto>> GetStokByDepoId(int depoId);
         Task<List<DepoStokDto>> GetStokByGroupId(int groupId);
         int GetLastStokId();
+        Task<Stok> GetStokByBarcode(string barcode);
 
         //List<Stoklar> StoklariAdinaGoreGetir(string stokAdi);
 

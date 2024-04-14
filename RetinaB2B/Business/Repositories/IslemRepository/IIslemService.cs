@@ -5,9 +5,9 @@ namespace Business.Repositories.IslemRepository
 {
     public interface IIslemService
     {
-        Task<IResult> Add(Islem ıslem);
+        Task<int> Add(Islem entity);
         Task<IResult> Update(Islem ıslem);
-        Task<IResult> Delete(Islem ıslem);
+        Task<IResult> Delete(int islemId);
         Task<IDataResult<List<Islem>>> GetList();
         Task<IDataResult<Islem>> GetById(int id);
         int GetLastIslemId();

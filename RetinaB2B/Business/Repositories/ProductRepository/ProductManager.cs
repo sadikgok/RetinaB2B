@@ -1,4 +1,3 @@
-using Business.Aspects.Secured;
 using Business.Repositories.PriceListDetailRepository;
 using Business.Repositories.ProductImageRepository;
 using Business.Repositories.ProductRepository.Constants;
@@ -6,7 +5,6 @@ using Business.Repositories.ProductRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
 using Core.Aspects.Validation;
-using Core.Utilities.Business;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.ProductRepository;
@@ -69,7 +67,7 @@ namespace Business.Repositories.ProductRepository
             return new SuccessResult(ProductMessages.Deleted);
         }
 
-        [SecuredAspect("admin,product.get")] 
+        //[SecuredAspect("admin,product.get")] 
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetList()
@@ -77,13 +75,13 @@ namespace Business.Repositories.ProductRepository
             return new SuccessDataResult<List<ProductListDto>>(await _productDal.GetList());
         }
 
-        [SecuredAspect("admin,product.get")]
+        //[SecuredAspect("admin,product.get")]
         public async Task<IDataResult<Product>> GetById(int id)
         {
             return new SuccessDataResult<Product>(await _productDal.Get(p => p.Id == id));
         }
 
-        [SecuredAspect("admin,product.get")]
+        //[SecuredAspect("admin,product.get")]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetProductList(int customerId)
         {

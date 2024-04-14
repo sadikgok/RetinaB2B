@@ -50,7 +50,7 @@ namespace Business.Repositories.CustomerReliationshipRepository
             return new SuccessResult(CustomerReliationshipMessages.Updated);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [RemoveCacheAspect("ICustomerReliationshipService.Get")]
 
         public async Task<IResult> Delete(CustomerReliationship customerReliationship)
@@ -59,7 +59,7 @@ namespace Business.Repositories.CustomerReliationshipRepository
             return new SuccessResult(CustomerReliationshipMessages.Deleted);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<CustomerReliationship>>> GetList()
@@ -67,13 +67,13 @@ namespace Business.Repositories.CustomerReliationshipRepository
             return new SuccessDataResult<List<CustomerReliationship>>(await _customerReliationshipDal.GetAll());
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         public async Task<IDataResult<CustomerReliationship>> GetById(int id)
         {
             return new SuccessDataResult<CustomerReliationship>(await _customerReliationshipDal.Get(p => p.Id == id));
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         public async Task<IDataResult<CustomerReliationship>> GetByCustomerId(int customerId)
         {
             return new SuccessDataResult<CustomerReliationship>(await _customerReliationshipDal.Get(p => p.CustomerId == customerId));

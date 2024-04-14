@@ -92,7 +92,7 @@ namespace Business.Repositories.CariRepository
         [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
-        public async Task<IDataResult<List<CariDto>>> GetList()
+        public async Task<IDataResult<List<CariDto>>> GetListDto()
         {
             return new SuccessDataResult<List<CariDto>>(await _cariDal.GetListDto());
         }

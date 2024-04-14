@@ -10,7 +10,5 @@
         public decimal CariDovizAlacak { get; set; }
         public decimal CariDovizBorc { get; set; }
         public string CariHareketAciklama { get; set; }
-
-        public virtual Cari Cariler { get; set; }
     }
 }

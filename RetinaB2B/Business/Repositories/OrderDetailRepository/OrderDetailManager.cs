@@ -31,7 +31,7 @@ namespace Business.Repositories.OrderDetailRepository
             return new SuccessResult(OrderDetailMessages.Added);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(OrderDetailValidator))]
         [RemoveCacheAspect("IOrderDetailService.Get")]
 
@@ -66,7 +66,7 @@ namespace Business.Repositories.OrderDetailRepository
             return new SuccessDataResult<List<OrderDetailDto>>(await _orderDetailDal.GetListDto(orderId));
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         public async Task<IDataResult<OrderDetail>> GetById(int id)
         {
             return new SuccessDataResult<OrderDetail>(await _orderDetailDal.Get(p => p.Id == id));

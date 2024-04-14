@@ -37,10 +37,10 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Delete(CariHareket cariHareket)
+        [HttpDelete("[action]/{islemId}")]
+        public async Task<IActionResult> Delete(int islemId)
         {
-            var result = await _cariHareketService.Delete(cariHareket);
+            var result = await _cariHareketService.Delete(new CariHareket { IslemId = islemId });
             if (result.Success)
             {
                 return Ok(result);

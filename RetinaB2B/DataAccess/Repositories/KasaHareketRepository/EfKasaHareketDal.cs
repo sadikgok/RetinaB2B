@@ -16,6 +16,7 @@ namespace DataAccess.Repositories.KasaHareketRepository
                              join islem in context.Islemler on kasaHareket.IslemId equals islem.IslemId
                              select new KasaHareketDto
                              {
+                                 IslemId=islem.IslemId,
                                  IslemAdi = islem.IslemAdi,
                                  IslemTarihi = islem.IslemTarihi,
                                  IslemTipi = islem.IslemTipi,

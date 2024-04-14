@@ -10,5 +10,6 @@
         public decimal AlisFiyati { get; set; }
         public decimal SatisFiyati { get; set; }
         public string ParaBirimi { get; set; }
+        public string MainImageUrl { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 using Core.DataAccess.EntityFramework;
 using DataAccess.Context.EntityFramework;
+using Entities;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories.IslemRepository
 {
@@ -17,5 +19,16 @@ namespace DataAccess.Repositories.IslemRepository
                 return lastId;
             }
         }
-    } 
+
+        public async Task<int> Add(Islem islem) 
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var addedEntity = context.Entry(islem);
+                addedEntity.State = EntityState.Added;
+                await context.SaveChangesAsync();
+                return islem.IslemId;
+            }
+        }
+    }
 }

@@ -70,6 +70,17 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("[action]/{barcode}")]
+        public async Task<IActionResult> GetStokByBarcode(string barcode)
+        {
+            var result = await _stokService.GetStokByBarcode(barcode);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpGet("[action]/{depoId}")]
         public async Task<IActionResult> GetStokByDepoId(int depoId)
         {

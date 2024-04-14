@@ -10,7 +10,7 @@ namespace Business.Repositories.KasaHareketRepository
         Task<IResult> Update(KasaHareket kasaHareket);
         Task<IResult> Delete(KasaHareket kasaHareket);
         Task<IDataResult<List<KasaHareket>>> GetList();
-        Task<IDataResult<KasaHareket>> GetById(int id);
+        Task<IDataResult<KasaHareket>> GetById(int islemId);
         Task<IDataResult<List<KasaHareketDto>>> GetKasaHareketByKasaId(int kasaId);
     }
 }

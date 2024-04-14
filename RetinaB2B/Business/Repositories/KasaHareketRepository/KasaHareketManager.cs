@@ -1,6 +1,8 @@
 using Business.Aspects.Secured;
 using Business.Repositories.KasaHareketRepository.Constants;
 using Business.Repositories.KasaHareketRepository.Validation;
+using Business.Repositories.OrderDetailRepository;
+using Business.Repositories.OrderRepository.Constants;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
 using Core.Aspects.Validation;
@@ -43,10 +45,10 @@ namespace Business.Repositories.KasaHareketRepository
 
         [SecuredAspect()]
         [RemoveCacheAspect("IKasaHareketService.Get")]
-
         public async Task<IResult> Delete(KasaHareket kasaHareket)
         {
-            await _kasaHareketDal.Delete(kasaHareket);
+            var details = await _kasaHareketDal.Get(p => p.IslemId == kasaHareket.IslemId);
+            await _kasaHareketDal.Delete(details);
             return new SuccessResult(KasaHareketMessages.Deleted);
         }
 
@@ -59,9 +61,9 @@ namespace Business.Repositories.KasaHareketRepository
         }
 
         [SecuredAspect()]
-        public async Task<IDataResult<KasaHareket>> GetById(int id)
+        public async Task<IDataResult<KasaHareket>> GetById(int islemId)
         {
-            return new SuccessDataResult<KasaHareket>(await _kasaHareketDal.Get(p => p.KasaId == id));
+            return new SuccessDataResult<KasaHareket>(await _kasaHareketDal.Get(p => p.IslemId == islemId));
         }
 
         [SecuredAspect()]

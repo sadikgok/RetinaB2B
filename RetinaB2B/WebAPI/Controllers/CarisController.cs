@@ -50,9 +50,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetList()
+        public async Task<IActionResult> GetListDto() 
         {
-            var result = await _cariService.GetList();
+            var result = await _cariService.GetListDto();
             if (result.Success)
             {
                 return Ok(result);

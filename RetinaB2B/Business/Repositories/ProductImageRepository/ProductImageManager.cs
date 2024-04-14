@@ -150,7 +150,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.MainImagesIsUpdated);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductImage>>> GetListByProductId(int stokId)

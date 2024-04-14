@@ -16,14 +16,10 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Add(Islem ıslem)
+        public async Task<IActionResult> Add([FromBody] Islem islem)
         {
-            var result = await _ıslemService.Add(ıslem);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
+            int sonEklenenIslemId = await _ıslemService.Add(islem);
+            return Ok(sonEklenenIslemId);
         }
 
         [HttpPost("[action]")]
@@ -37,10 +33,10 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Delete(Islem ıslem)
+        [HttpDelete("[action]/{islemId}")]
+        public async Task<IActionResult> Delete(int islemId)
         {
-            var result = await _ıslemService.Delete(ıslem);
+            var result = await _ıslemService.Delete(islemId);
             if (result.Success)
             {
                 return Ok(result);
@@ -71,11 +67,13 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetLastIslemId()
+        public IActionResult GetLastIslemId()
         {
             var result = _ıslemService.GetLastIslemId();
             return Ok(result);
         }
+
+      
 
     }
 }

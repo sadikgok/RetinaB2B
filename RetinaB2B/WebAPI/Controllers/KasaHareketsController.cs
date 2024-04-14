@@ -1,3 +1,4 @@
+using Business.Repositories.IslemRepository;
 using Business.Repositories.KasaHareketRepository;
 using Business.Repositories.ProductRepository;
 using Entities.Concrete;
@@ -39,10 +40,10 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Delete(KasaHareket kasaHareket)
+        [HttpDelete("[action]/{islemId}")]
+        public async Task<IActionResult> Delete(int islemId)
         {
-            var result = await _kasaHareketService.Delete(kasaHareket);
+            var result = await _kasaHareketService.Delete(new KasaHareket { IslemId = islemId });
             if (result.Success)
             {
                 return Ok(result);
@@ -61,10 +62,10 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("[action]/{islemId}")]
+        public async Task<IActionResult> GetById(int islemId)
         {
-            var result = await _kasaHareketService.GetById(id);
+            var result = await _kasaHareketService.GetById(islemId);
             if (result.Success)
             {
                 return Ok(result);

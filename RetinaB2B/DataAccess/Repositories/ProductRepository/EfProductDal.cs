@@ -47,7 +47,6 @@ namespace DataAccess.Repositories.ProductRepository
                                  };
                     return await result.OrderBy(p => p.Name).ToListAsync();
                 }
-
             }
         }
 

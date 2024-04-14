@@ -46,7 +46,8 @@ namespace Business.Repositories.CariHareketRepository
 
         public async Task<IResult> Delete(CariHareket cariHareket)
         {
-            await _cariHareketDal.Delete(cariHareket);
+            var result = await _cariHareketDal.Get(p => p.IslemId == cariHareket.IslemId);
+            await _cariHareketDal.Delete(result);
             return new SuccessResult(CariHareketMessages.Deleted);
         }
 

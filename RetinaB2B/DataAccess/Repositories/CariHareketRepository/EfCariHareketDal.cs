@@ -16,10 +16,9 @@ namespace DataAccess.Repositories.CariHareketRepository
                              join islem in context.Islemler on cariHareket.IslemId equals islem.IslemId
                              select new CariHareketDto
                              {
+                                 IslemId = islem.IslemId,
                                  IslemAdi = islem.IslemAdi,
                                  IslemTarihi = islem.IslemTarihi,
-                                 IslemTipi = islem.IslemTipi,
-                                 OdemeSekli = islem.OdemeSekli,
                                  CariAlacak = cariHareket.CariAlacak,
                                  CariBorc = cariHareket.CariBorc,
                                  CariDovizAlacak = cariHareket.CariDovizAlacak,

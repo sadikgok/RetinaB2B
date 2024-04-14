@@ -78,5 +78,10 @@ namespace Business.Repositories.StokRepository
         {
             return  _stokDal.GetLastStokId();
         }
+
+        public async Task<IDataResult< Stok>> GetStokByBarcode(string barcode)
+        {
+            return new SuccessDataResult<Stok>(await _stokDal.GetStokByBarcode(barcode));
+        }
     }
 }
