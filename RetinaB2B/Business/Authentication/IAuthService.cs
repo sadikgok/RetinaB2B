@@ -9,5 +9,6 @@ namespace Business.Abstract
         Task<IResult> Register(RegisterAuthDto registerDto);
         Task<IDataResult<AdminToken>> UserLogin(LoginAuthDto loginDto);
         Task<IDataResult<CustomerToken>> CustomerLogin(CustomerLoginDto customerLoginDto);
+        Task<IDataResult<CariToken>>CariLogin(CustomerLoginDto customerLoginDto);
     }
 }

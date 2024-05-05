@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Repositories.StokHareketRepository;
-using Entities.Concrete;
 using Business.Aspects.Secured;
-using Core.Aspects.Validation;
+using Business.Repositories.StokHareketRepository.Constants;
+using Business.Repositories.StokHareketRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
-using Business.Repositories.StokHareketRepository.Validation;
-using Business.Repositories.StokHareketRepository.Constants;
+using Core.Aspects.Validation;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.StokHareketRepository;
+using Entities.Concrete;
 using Entities.Dtos;
 
 namespace Business.Repositories.StokHareketRepository
@@ -50,7 +44,7 @@ namespace Business.Repositories.StokHareketRepository
         [SecuredAspect()]
         [RemoveCacheAspect("IStokHareketService.Get")]
 
-        public async Task<IResult> Delete(StokHareket stokHareket)
+        public async Task<IResult> Delete(StokHareket stokHareket) 
         {
             await _stokHareketDal.Delete(stokHareket);
             return new SuccessResult(StokHareketMessages.Deleted);
@@ -74,6 +68,11 @@ namespace Business.Repositories.StokHareketRepository
         public async Task<IDataResult<List<StokHareketDto>>> GetStokHareketByStokId(int stokId)
         {
             return new SuccessDataResult<List<StokHareketDto>>(await _stokHareketDal.GetStokHareketByStokId(stokId));
+        }
+
+        public async Task<IDataResult<List<StokHareket>>> GetStokHareketByIslemId(int islemId)
+        {
+            return new SuccessDataResult<List<StokHareket>>(await _stokHareketDal.GetStokHareketByIslemId(islemId));    
         }
     }
 }

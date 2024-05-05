@@ -6,9 +6,9 @@ namespace Entities.Concrete
     {
         [Key]
         public int IslemDetayId { get; set; }
-        public int? IslemId { get; set; }
-        public int? CariId { get; set; }
-        public int? KasaId { get; set; }
+        public int IslemId { get; set; }
+        public int CariId { get; set; }
+        public int KasaId { get; set; }
         public decimal? IskontoTutari { get; set; }
         public decimal? TlTutari { get; set; }
         public decimal? DovizTutari { get; set; }

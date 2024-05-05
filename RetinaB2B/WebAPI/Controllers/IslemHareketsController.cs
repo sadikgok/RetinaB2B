@@ -1,4 +1,4 @@
-using Business.Repositories.StokHareketRepository;
+using Business.Repositories.IslemHareketRepository;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,19 +6,19 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StokHareketsController : ControllerBase
+    public class IslemHareketsController : ControllerBase
     {
-        private readonly IStokHareketService _stokHareketService;
+        private readonly IIslemHareketService _ıslemHareketService;
 
-        public StokHareketsController(IStokHareketService stokHareketService)
+        public IslemHareketsController(IIslemHareketService ıslemHareketService)
         {
-            _stokHareketService = stokHareketService;
+            _ıslemHareketService = ıslemHareketService;
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Add(StokHareket stokHareket)
+        public async Task<IActionResult> Add(IslemHareket ıslemHareket)
         {
-            var result = await _stokHareketService.Add(stokHareket);
+            var result = await _ıslemHareketService.Add(ıslemHareket);
             if (result.Success)
             {
                 return Ok(result);
@@ -27,9 +27,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Update(StokHareket stokHareket)
+        public async Task<IActionResult> Update(IslemHareket ıslemHareket)
         {
-            var result = await _stokHareketService.Update(stokHareket);
+            var result = await _ıslemHareketService.Update(ıslemHareket);
             if (result.Success)
             {
                 return Ok(result);
@@ -38,9 +38,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Delete(StokHareket stokHareket)
+        public async Task<IActionResult> Delete(IslemHareket ıslemHareket)
         {
-            var result = await _stokHareketService.Delete(stokHareket);
+            var result = await _ıslemHareketService.Delete(ıslemHareket);
             if (result.Success)
             {
                 return Ok(result);
@@ -51,7 +51,7 @@ namespace WebApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetList()
         {
-            var result = await _stokHareketService.GetList();
+            var result = await _ıslemHareketService.GetList();
             if (result.Success)
             {
                 return Ok(result);
@@ -62,7 +62,7 @@ namespace WebApi.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _stokHareketService.GetById(id);
+            var result = await _ıslemHareketService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -70,22 +70,14 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("[action]/{stokId}")]
-        public async Task<IActionResult> GetStokHareketByStokId(int stokId)
+        [HttpGet("[action]/{islemId}")]
+        public async Task<IActionResult> GetIslemHareketByIslemId(int islemId)
         {
-            var result = await _stokHareketService.GetStokHareketByStokId(stokId);
+            var result = await _ıslemHareketService.GetIslemHareketByIslemId(islemId);
             if (result.Success)
                 return Ok(result);
             return BadRequest(result.Message);
         }
 
-        [HttpGet("[action]/{islemId}")]
-        public async Task<IActionResult> GetStokHareketByIslemId(int islemId)
-        {
-            var result=await _stokHareketService.GetStokHareketByIslemId(islemId);
-            if (result.Success)
-                return Ok(result);
-            return BadRequest(result.Message);
-        }
     }
 }

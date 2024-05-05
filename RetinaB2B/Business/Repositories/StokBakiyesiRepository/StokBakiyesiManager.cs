@@ -63,5 +63,16 @@ namespace Business.Repositories.StokBakiyesiRepository
             return new SuccessDataResult<StokBakiyesi>(await _stokBakiyesiDal.Get(p => p.StokId == id));
         }
 
+        public async Task<IResult> StokBakiyeDusur(StokBakiyesi stokBakiyesi)
+        {
+            await _stokBakiyesiDal.StokBakiyeDusur(stokBakiyesi);
+            return new SuccessResult(StokBakiyesiMessages.Updated);
+        }
+
+        public async Task<IResult> StokBakiyeArtir(StokBakiyesi stokBakiyesi)
+        {
+            await _stokBakiyesiDal.StokBakiyeArtir(stokBakiyesi);
+            return new SuccessResult(StokBakiyesiMessages.Updated);
+        }
     }
 }

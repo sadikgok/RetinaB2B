@@ -49,6 +49,10 @@ using Business.Repositories.CariRepository;
 using DataAccess.Repositories.CariRepository;
 using Business.Repositories.CariHareketRepository;
 using DataAccess.Repositories.CariHareketRepository;
+using Business.Repositories.IslemHareketRepository;
+using DataAccess.Repositories.IslemHareketRepository;
+using Business.Repositories.IslemDetayRepository;
+using DataAccess.Repositories.IslemDetayRepository;
 using DataAccess.Repositories.UserRepository;
 
 namespace Business.DependencyResolvers.Autofac
@@ -129,6 +133,12 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<CariHareketManager>().As<ICariHareketService>().SingleInstance();
             builder.RegisterType<EfCariHareketDal>().As<ICariHareketDal>().SingleInstance();
+
+            builder.RegisterType<IslemHareketManager>().As<IIslemHareketService>().SingleInstance();
+            builder.RegisterType<EfIslemHareketDal>().As<IIslemHareketDal>().SingleInstance();
+
+            builder.RegisterType<IslemDetayManager>().As<IIslemDetayService>().SingleInstance();
+            builder.RegisterType<EfIslemDetayDal>().As<IIslemDetayDal>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

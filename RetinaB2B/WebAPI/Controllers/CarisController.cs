@@ -1,4 +1,5 @@
 using Business.Repositories.CariRepository;
+using Business.Repositories.CustomerRepository;
 using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetListDto() 
+        public async Task<IActionResult> GetListDto()
         {
             var result = await _cariService.GetListDto();
             if (result.Success)
@@ -80,6 +81,17 @@ namespace WebApi.Controllers
                 return Ok(result);
             }
             return BadRequest(result.Message);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CariPasswordChance(CariPasswordChangeDto cariDto)
+        {
+            var result = await _cariService.CariPasswordChance(cariDto); 
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message); 
         }
 
     }

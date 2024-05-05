@@ -50,5 +50,16 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CariLogin(CustomerLoginDto authDto)
+        {
+            var result = await _authService.CariLogin(authDto); 
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }

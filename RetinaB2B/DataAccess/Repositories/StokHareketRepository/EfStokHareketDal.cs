@@ -8,6 +8,17 @@ namespace DataAccess.Repositories.StokHareketRepository
 {
     public class EfStokHareketDal : EfEntityRepositoryBase<StokHareket, SimpleContextDb>, IStokHareketDal
     {
+        public async Task<List<StokHareket>> GetStokHareketByIslemId(int islemId)
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var result = await context.StokHareketleri
+                             .Where(p => p.IslemId == islemId)
+                             .ToListAsync();
+                return result;
+            }
+        }
+
         public async Task<List<StokHareketDto>> GetStokHareketByStokId(int stokId)
         {
             using (var context = new SimpleContextDb())
@@ -30,5 +41,7 @@ namespace DataAccess.Repositories.StokHareketRepository
                 return await result.OrderByDescending(p => p.IslemTarihi).ToListAsync();
             }
         }
+
+
     }
 }

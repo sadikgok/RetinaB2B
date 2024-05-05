@@ -6,6 +6,7 @@ namespace DataAccess.Repositories.IslemRepository
     public interface IIslemDal : IEntityRepository<Islem>
     {
         int GetLastIslemId();
-         Task<int> Add(Islem islem);  
+        Task<int> Add(Islem islem);
+        string GetIslemNumber();
     }
 }

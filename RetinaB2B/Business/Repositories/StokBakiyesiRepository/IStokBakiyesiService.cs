@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Entities.Concrete;
 using Core.Utilities.Result.Abstract;
+using Entities.Concrete;
 
 namespace Business.Repositories.StokBakiyesiRepository
 {
@@ -15,5 +10,8 @@ namespace Business.Repositories.StokBakiyesiRepository
         Task<IResult> Delete(StokBakiyesi stokBakiyesi);
         Task<IDataResult<List<StokBakiyesi>>> GetList();
         Task<IDataResult<StokBakiyesi>> GetById(int id);
+        Task<IResult> StokBakiyeDusur(StokBakiyesi stokBakiyesi);
+        Task<IResult> StokBakiyeArtir(StokBakiyesi stokBakiyesi);
     }
 }
+ 

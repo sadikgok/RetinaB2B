@@ -13,5 +13,6 @@
         public decimal DovizKuru { get; set; }
         public decimal OdenenTutar { get; set; }
         public int DepoId { get; set; }
+        public string IslemNumber { get; set; }
     }
 }

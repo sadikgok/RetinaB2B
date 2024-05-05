@@ -1,7 +1,6 @@
 using Business.Aspects.Secured;
 using Business.Repositories.KasaRepository.Constants;
 using Business.Repositories.KasaRepository.Validation;
-using Business.Repositories.OrderRepository.Constants;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
 using Core.Aspects.Validation;
@@ -63,7 +62,5 @@ namespace Business.Repositories.KasaRepository
         {
             return new SuccessDataResult<Kasa>(await _kasaDal.Get(p => p.KasaId == id));
         }
-
-        
     }
 }

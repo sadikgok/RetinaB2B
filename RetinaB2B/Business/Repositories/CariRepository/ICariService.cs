@@ -12,5 +12,7 @@ namespace Business.Repositories.CariRepository
         Task<IDataResult<List<CariDto>>> GetListDto(); 
         Task<IDataResult<Cari>> GetById(int cariId);
         Task<IResult> UpdateCariBakiye(CariBakiyeDto cariBakiyeDto);
+        Task<IResult> CariPasswordChance(CariPasswordChangeDto cariPasswordChangeDto);
+        Task<Cari> GetByEmail(string email);
     }
 }

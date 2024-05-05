@@ -1,25 +1,24 @@
-using Business.Repositories.KasaRepository;
+using Business.Repositories.IslemDetayRepository;
 using Entities.Concrete;
-using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class KasasController : ControllerBase
+    public class IslemDetailsController : ControllerBase
     {
-        private readonly IKasaService _kasaService;
+        private readonly IIslemDetayService _ıslemDetayService;
 
-        public KasasController(IKasaService kasaService)
+        public IslemDetailsController(IIslemDetayService ıslemDetayService)
         {
-            _kasaService = kasaService;
+            _ıslemDetayService = ıslemDetayService;
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Add(Kasa kasa)
+        public async Task<IActionResult> Add(IslemDetay ıslemDetay)
         {
-            var result = await _kasaService.Add(kasa);
+            var result = await _ıslemDetayService.Add(ıslemDetay);
             if (result.Success)
             {
                 return Ok(result);
@@ -28,9 +27,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Update(Kasa kasa)
+        public async Task<IActionResult> Update(IslemDetay ıslemDetay)
         {
-            var result = await _kasaService.Update(kasa);
+            var result = await _ıslemDetayService.Update(ıslemDetay);
             if (result.Success)
             {
                 return Ok(result);
@@ -38,10 +37,10 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Delete(Kasa kasa)
+        [HttpDelete("[action]/{islemId}")]
+        public async Task<IActionResult> Delete(int islemId)
         {
-            var result = await _kasaService.Delete(kasa);
+            var result = await _ıslemDetayService.Delete(new IslemDetay { IslemId = islemId });
             if (result.Success)
             {
                 return Ok(result);
@@ -52,7 +51,7 @@ namespace WebApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetList()
         {
-            var result = await _kasaService.GetList();
+            var result = await _ıslemDetayService.GetList();
             if (result.Success)
             {
                 return Ok(result);
@@ -60,15 +59,16 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("[action]/{kasaId}")]
-        public async Task<IActionResult> GetById(int kasaId)
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var result = await _kasaService.GetById(kasaId);
+            var result = await _ıslemDetayService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result.Message);
         }
+
     }
 }

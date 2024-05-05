@@ -7,5 +7,6 @@ namespace Core.Utilities.Security.JWT
         AdminToken CreateUserToken(User user, List<OperationClaim> operationClaims);
 
         CustomerToken CreateCustomerToken(Customer customer);
+        CariToken CreateCariToken(Cari cari); 
     }
 }

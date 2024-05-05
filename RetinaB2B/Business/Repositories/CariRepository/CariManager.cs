@@ -97,7 +97,7 @@ namespace Business.Repositories.CariRepository
             return new SuccessDataResult<List<CariDto>>(await _cariDal.GetListDto());
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         public async Task<IDataResult<Cari>> GetById(int cariId)
         {
             return new SuccessDataResult<Cari>(await _cariDal.Get(p => p.CariId == cariId));
@@ -117,6 +117,18 @@ namespace Business.Repositories.CariRepository
                 return new ErrorResult("Bu mail adresi daha önce kullanýlmýþ");
             }
             return new SuccessResult();
+        }
+
+        [SecuredAspect()]
+        public async Task<IResult> CariPasswordChance(CariPasswordChangeDto cariPasswordChangeDto)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePassword(cariPasswordChangeDto.Password, out passwordHash, out passwordSalt);
+            var cari = await _cariDal.Get(p => p.CariId == cariPasswordChangeDto.CariId);
+            cari.PasswordHash = passwordHash;
+            cari.PasswordSalt = passwordSalt;
+            await _cariDal.Update(cari);
+            return new SuccessResult(CustomerMessages.ChangePassword);
         }
     }
 }

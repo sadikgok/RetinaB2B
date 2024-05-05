@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Repositories.CariRepository;
 using Business.Repositories.CustomerRepository;
 using Business.Repositories.UserRepository;
 using Core.Utilities.Business;
@@ -16,6 +17,7 @@ namespace Business.Authentication
         private readonly IUserService _userService;
         private readonly ITokenHandler _tokenHandler;
         private readonly ICustomerService _customerService;
+        private readonly ICariService _cariService;
 
         public AuthManager(IUserService userService, ITokenHandler tokenHandler, ICustomerService customerService = null)
         {
@@ -65,7 +67,27 @@ namespace Business.Authentication
             return new ErrorDataResult<CustomerToken>("Kullanıcı maili ya da şifre bilgisi yanlış");
         }
 
-        //[ValidationAspect(typeof(AuthValidator))]
+        public async Task<IDataResult<CariToken>> CariLogin(CustomerLoginDto loginDto)
+        {
+            var cari = await _cariService.GetByEmail(loginDto.Email);
+            if (cari == null)
+                return new ErrorDataResult<CariToken>("Kullanıcı maili sistemde bulunamadı!");
+
+            //if (!user.IsConfirm)
+            //    return new ErrorDataResult<Token>("Kullanıcı maili onaylanmamış!");
+
+            var result = HashingHelper.VerifyPasswordHash(loginDto.Password, cari.PasswordHash, cari.PasswordSalt);
+
+            if (result)
+            {
+                CariToken token = new();
+                token = _tokenHandler.CreateCariToken(cari);
+                return new SuccessDataResult<CariToken>(token);
+            }
+            return new ErrorDataResult<CariToken>("Kullanıcı maili ya da şifre bilgisi yanlış");
+        }
+
+       // [ValidationAspect(typeof(AuthValidator))]
         public async Task<IResult> Register(RegisterAuthDto registerDto)
         {
             IResult result = BusinessRules.Run(

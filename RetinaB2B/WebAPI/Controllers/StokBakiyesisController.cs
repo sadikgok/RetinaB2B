@@ -70,5 +70,27 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> StokBakiyeDusur(StokBakiyesi stokBakiyesi)
+        {
+            var result = await _stokBakiyesiService.StokBakiyeDusur(stokBakiyesi);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> StokBakiyeArtir(StokBakiyesi stokBakiyesi)
+        {
+            var result = await _stokBakiyesiService.StokBakiyeArtir(stokBakiyesi);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
     }
 }

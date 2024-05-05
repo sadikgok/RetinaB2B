@@ -10,6 +10,6 @@ namespace Business.Repositories.KasaRepository
         Task<IResult> Delete(Kasa kasa);
         Task<IDataResult<List<Kasa>>> GetList();
         Task<IDataResult<Kasa>> GetById(int id);
-        
+
     }
 }

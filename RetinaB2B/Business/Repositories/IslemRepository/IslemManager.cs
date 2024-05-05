@@ -39,8 +39,8 @@ namespace Business.Repositories.IslemRepository
             return new SuccessResult(IslemMessages.Updated);
         }
 
-        //[SecuredAspect()]
-        //[RemoveCacheAspect("IIslemService.Get")]
+        [SecuredAspect()]
+        [RemoveCacheAspect("IIslemService.Get")]
 
         public async Task<IResult> Delete(int islemId)
         {
@@ -57,9 +57,9 @@ namespace Business.Repositories.IslemRepository
         }
 
         [SecuredAspect()]
-        public async Task<IDataResult<Islem>> GetById(int id)
+        public async Task<IDataResult<Islem>> GetById(int islemId)
         {
-            return new SuccessDataResult<Islem>(await _ıslemDal.Get(p => p.IslemId == id));
+            return new SuccessDataResult<Islem>(await _ıslemDal.Get(p => p.IslemId == islemId));
         }
 
         public int GetLastIslemId()

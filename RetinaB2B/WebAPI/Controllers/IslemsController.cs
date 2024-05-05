@@ -55,10 +55,10 @@ namespace WebApi.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("[action]/{islemId}")]
+        public async Task<IActionResult> GetById(int islemId)
         {
-            var result = await _ıslemService.GetById(id);
+            var result = await _ıslemService.GetById(islemId);
             if (result.Success)
             {
                 return Ok(result);

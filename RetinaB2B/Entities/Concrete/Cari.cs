@@ -4,7 +4,6 @@ namespace Entities.Concrete
 {
     public class Cari
     {
-
         [Key]
         public int CariId { get; set; }
         public string CariAdi { get; set; }
@@ -21,7 +20,7 @@ namespace Entities.Concrete
         public string? VergiNo { get; set; }
         public string? VergiDairesi { get; set; }
         public string? Aciklama { get; set; }
-        public string? Email { get; set; }
+        public string Email { get; set; }
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
     }

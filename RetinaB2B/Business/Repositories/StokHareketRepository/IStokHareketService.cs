@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Entities.Concrete;
 using Core.Utilities.Result.Abstract;
+using Entities.Concrete;
 using Entities.Dtos;
 
 namespace Business.Repositories.StokHareketRepository
@@ -17,5 +12,6 @@ namespace Business.Repositories.StokHareketRepository
         Task<IDataResult<List<StokHareket>>> GetList();
         Task<IDataResult<StokHareket>> GetById(int id);
         Task<IDataResult<List<StokHareketDto>>> GetStokHareketByStokId(int stokId);
+        Task<IDataResult<List<StokHareket>>>GetStokHareketByIslemId(int islemId);
     }
 }

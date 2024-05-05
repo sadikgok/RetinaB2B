@@ -9,7 +9,8 @@ namespace Business.Repositories.IslemRepository
         Task<IResult> Update(Islem ıslem);
         Task<IResult> Delete(int islemId);
         Task<IDataResult<List<Islem>>> GetList();
-        Task<IDataResult<Islem>> GetById(int id);
+        Task<IDataResult<Islem>> GetById(int islemId);
         int GetLastIslemId();
     }
 }
+ 

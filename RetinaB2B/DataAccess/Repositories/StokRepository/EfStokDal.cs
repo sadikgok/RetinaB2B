@@ -74,8 +74,8 @@ namespace DataAccess.Repositories.StokRepository
         {
             using (var context = new SimpleContextDb())
             {
-                var result = context.Stoklar.FirstOrDefaultAsync(p => p.Barkod == barcode);
-                return await result;
+                var result =await context.Stoklar.FirstOrDefaultAsync(p => p.Barkod == barcode);
+                return result;
             }
         }
     }

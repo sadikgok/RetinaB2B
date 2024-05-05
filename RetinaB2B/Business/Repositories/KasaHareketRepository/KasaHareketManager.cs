@@ -47,8 +47,8 @@ namespace Business.Repositories.KasaHareketRepository
         [RemoveCacheAspect("IKasaHareketService.Get")]
         public async Task<IResult> Delete(KasaHareket kasaHareket)
         {
-            var details = await _kasaHareketDal.Get(p => p.IslemId == kasaHareket.IslemId);
-            await _kasaHareketDal.Delete(details);
+            var result = await _kasaHareketDal.Get(p => p.IslemId == kasaHareket.IslemId);
+            await _kasaHareketDal.Delete(result);
             return new SuccessResult(KasaHareketMessages.Deleted);
         }
 

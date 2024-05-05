@@ -1,5 +1,4 @@
 using Entities.Concrete;
-using Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Context.EntityFramework
@@ -34,5 +33,7 @@ namespace DataAccess.Context.EntityFramework
         public DbSet<Islem> Islemler { get; set; }
         public DbSet<Cari> Cariler { get; set; }
         public DbSet<CariHareket> CariHareketleri { get; set; }
+        public DbSet<IslemHareket> IslemHareketleri { get; set; }
+        public DbSet<IslemDetay> IslemDetaylari { get; set; } 
     } 
 }
