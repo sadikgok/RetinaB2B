@@ -7,6 +7,9 @@ using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.HttpOverrides;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +23,7 @@ builder.Services.AddControllers();
 //builder.Services.AddCors(options =>
 //{
 //    options.AddPolicy("AllowOrigin",
-//        builder => builder.WithOrigins("https://localhost:4200", "yeni site", "yeni 2"));
+//        builder => builder.WithOrigins("https://api.retinabilisim.com.tr", "yeni site", "yeni 2"));
 //});
 
 //Eðer tüm istekleri karþýlamak istiyorsak
@@ -59,20 +62,33 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
 }
+
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseHttpsRedirection();
+//}
 
 app.ConfigureCustomExcepitonMiddleware();
 
 app.UseCors("AllowOrigin");
 
-app.UseHttpsRedirection();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.UseAuthentication();
+
+app.MapGet("/", () => "Hello ForwardedHeadersOptions!");
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+

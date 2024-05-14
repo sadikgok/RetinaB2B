@@ -39,7 +39,8 @@ namespace Business.Repositories.ProductImageRepository
                                    CheckIfImageSizeIsLessThanOneMb(image.Length));
                     if (result == null)
                     {
-                        string fileName = _fileService.FileSaveToServer(image, @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/");
+                        //string fileName = _fileService.FileSaveToServer(image, @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/");
+                        string fileName = _fileService.FileSaveToSftp(image);
                         ProductImage productImage = new()
                         {
                             Id = 0,
@@ -90,8 +91,10 @@ namespace Business.Repositories.ProductImageRepository
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> Delete(ProductImage productImage)
         {
-            string path = @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/" + productImage.ImageUrl;
-            _fileService.FileDeleteToServer(path);
+            //string path = @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/" + productImage.ImageUrl;
+            //_fileService.FileDeleteToServer(path);
+            string path =productImage.ImageUrl;
+            _fileService.FileDeleteToFtp(path);
 
             await _productImageDal.Delete(productImage);
             return new SuccessResult(ProductImageMessages.Deleted);
@@ -150,7 +153,7 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.MainImagesIsUpdated);
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductImage>>> GetListByProductId(int stokId)

@@ -7,7 +7,8 @@ namespace DataAccess.Context.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=RetinaB2B;Integrated Security=true;");
+            //optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=RetinaB2B;Integrated Security=true;");
+            optionsBuilder.UseSqlServer("Server=128.140.42.160;Database=Retinab2b;User Id=sadikgok;  Password=HasanSadik5481!!;TrustServerCertificate=true;");
         }
 
         public DbSet<User> Users { get; set; }
@@ -24,16 +25,16 @@ namespace DataAccess.Context.EntityFramework
         public DbSet<PriceList> PriceLists { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Stok> Stoklar { get; set; }
-        public DbSet<StokBakiyesi> StokBakiyeleri { get; set; } 
+        public DbSet<StokBakiyesi> StokBakiyeleri { get; set; }
         public DbSet<StokGrup> StokGruplari { get; set; }
-        public DbSet<StokHareket> StokHareketleri { get; set; }      
+        public DbSet<StokHareket> StokHareketleri { get; set; }
         public DbSet<Depo> Depolar { get; set; }
-        public DbSet<Kasa> Kasalar { get; set; } 
-        public DbSet<KasaHareket> KasaHareketleri { get; set; } 
+        public DbSet<Kasa> Kasalar { get; set; }
+        public DbSet<KasaHareket> KasaHareketleri { get; set; }
         public DbSet<Islem> Islemler { get; set; }
         public DbSet<Cari> Cariler { get; set; }
         public DbSet<CariHareket> CariHareketleri { get; set; }
         public DbSet<IslemHareket> IslemHareketleri { get; set; }
-        public DbSet<IslemDetay> IslemDetaylari { get; set; } 
-    } 
+        public DbSet<IslemDetay> IslemDetaylari { get; set; }
+    }
 }

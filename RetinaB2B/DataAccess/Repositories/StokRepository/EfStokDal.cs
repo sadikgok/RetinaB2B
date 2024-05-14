@@ -74,8 +74,31 @@ namespace DataAccess.Repositories.StokRepository
         {
             using (var context = new SimpleContextDb())
             {
-                var result =await context.Stoklar.FirstOrDefaultAsync(p => p.Barkod == barcode);
+                var result = await context.Stoklar.FirstOrDefaultAsync(p => p.Barkod == barcode);
                 return result;
+            }
+        }
+
+        public async Task UpdateStokAciklama(StokOzellikDto stok)
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var result = await context.Stoklar.FirstOrDefaultAsync(p => p.StokId == stok.StokId);
+                result.Aciklama = stok.Aciklama;
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<StokOzellikDto> GetStokAciklama(int stokId)
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var result = await context.Stoklar.FirstOrDefaultAsync(p => p.StokId == stokId);
+                return new StokOzellikDto
+                {
+                    StokAdi = result.StokAdi,
+                    Aciklama = result.Aciklama,
+                };
             }
         }
     }

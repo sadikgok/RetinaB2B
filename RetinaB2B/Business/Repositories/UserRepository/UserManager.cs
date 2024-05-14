@@ -32,8 +32,8 @@ namespace Business.Repositories.UserRepository
         [RemoveCacheAspect("IUserService.Get")]
         public async Task Add(RegisterAuthDto registerDto)
         {
-            string fileName = _fileService.FileSaveToServer(registerDto.Image, "./Content/Img/");
-            //string fileName = _fileService.FileSaveToFtp(registerDto.Image);
+            //string fileName = _fileService.FileSaveToServer(registerDto.Image, "./Content/Img/");
+            string fileName = _fileService.FileSaveToSftp(registerDto.Image);
             //byte[] fileByteArray = _fileService.FileConvertByteArrayToDatabase(registerDto.Image);
 
             string confirmValue = await CreateConfirmValue();

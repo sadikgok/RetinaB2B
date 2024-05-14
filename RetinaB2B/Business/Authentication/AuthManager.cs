@@ -19,11 +19,12 @@ namespace Business.Authentication
         private readonly ICustomerService _customerService;
         private readonly ICariService _cariService;
 
-        public AuthManager(IUserService userService, ITokenHandler tokenHandler, ICustomerService customerService = null)
+        public AuthManager(IUserService userService, ITokenHandler tokenHandler, ICustomerService customerService = null, ICariService cariService = null)
         {
             _userService = userService;
             _tokenHandler = tokenHandler;
             _customerService = customerService;
+            _cariService = cariService;
         }
 
         public async Task<IDataResult<AdminToken>> UserLogin(LoginAuthDto loginDto)
@@ -87,7 +88,7 @@ namespace Business.Authentication
             return new ErrorDataResult<CariToken>("Kullanıcı maili ya da şifre bilgisi yanlış");
         }
 
-       // [ValidationAspect(typeof(AuthValidator))]
+        // [ValidationAspect(typeof(AuthValidator))]
         public async Task<IResult> Register(RegisterAuthDto registerDto)
         {
             IResult result = BusinessRules.Run(

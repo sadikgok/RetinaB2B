@@ -1,5 +1,4 @@
 using Business.Repositories.CariRepository;
-using Business.Repositories.CustomerRepository;
 using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +17,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Add(CustomerRegisterDto customerRegisterDto)
+        public async Task<IActionResult> Add(CariRegisterDto cariRegisterDto)
         {
-            var result = await _cariService.Add(customerRegisterDto);
+            var result = await _cariService.Add(cariRegisterDto);
             if (result.Success)
             {
                 return Ok(result);
@@ -84,14 +83,14 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> CariPasswordChance(CariPasswordChangeDto cariDto)
+        public async Task<IActionResult> CariPasswordChange(CariPasswordChangeDto cariDto)
         {
-            var result = await _cariService.CariPasswordChance(cariDto); 
+            var result = await _cariService.CariPasswordChange(cariDto);
             if (result.Success)
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message); 
+            return BadRequest(result.Message);
         }
 
     }

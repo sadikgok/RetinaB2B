@@ -28,28 +28,28 @@ namespace Business.Repositories.CariRepository
         [ValidationAspect(typeof(CariValidator))]
         [RemoveCacheAspect("ICariService.Get")]
 
-        public async Task<IResult> Add(CustomerRegisterDto customerRegisterDto)
+        public async Task<IResult> Add(CariRegisterDto cariRegisterDto)
         {
-            IResult result = BusinessRules.Run(await CheckIfEmailExist(customerRegisterDto.Email));
+            IResult result = BusinessRules.Run(await CheckIfEmailExist(cariRegisterDto.Email));
             if (result != null)
             {
                 return result;
             }
             byte[] passwordHash, passwordSalt;
-            HashingHelper.CreatePassword(customerRegisterDto.Password, out passwordHash, out passwordSalt);
+            HashingHelper.CreatePassword(cariRegisterDto.Password, out passwordHash, out passwordSalt);
             Cari cari = new Cari
             {
                 CariId = 0,
-                CariAdi = customerRegisterDto.CariAdi,
-                CariAdres = customerRegisterDto.CariAdres,
-                CariCepTelefon = customerRegisterDto.CariCepTelefon,
-                CariGrubu = customerRegisterDto.CariGrubu,
-                CariTelefon = customerRegisterDto.CariTelefon,
-                CariIl = customerRegisterDto.CariIl,
-                CariYetkiliKisi = customerRegisterDto.CariYetkiliKisi,
-                VergiDairesi = customerRegisterDto.VergiDairesi,
-                VergiNo = customerRegisterDto.VergiNo,
-                Email = customerRegisterDto.Email,
+                CariAdi = cariRegisterDto.CariAdi,
+                CariAdres = cariRegisterDto.CariAdres,
+                CariCepTelefon = cariRegisterDto.CariCepTelefon,
+                CariGrubu = cariRegisterDto.CariGrubu,
+                CariTelefon = cariRegisterDto.CariTelefon,
+                CariIl = cariRegisterDto.CariIl,
+                CariYetkiliKisi = cariRegisterDto.CariYetkiliKisi,
+                VergiDairesi = cariRegisterDto.VergiDairesi,
+                VergiNo = cariRegisterDto.VergiNo,
+                Email = cariRegisterDto.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 CariDovizBakiye = 0,
@@ -120,7 +120,7 @@ namespace Business.Repositories.CariRepository
         }
 
         [SecuredAspect()]
-        public async Task<IResult> CariPasswordChance(CariPasswordChangeDto cariPasswordChangeDto)
+        public async Task<IResult> CariPasswordChange(CariPasswordChangeDto cariPasswordChangeDto)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePassword(cariPasswordChangeDto.Password, out passwordHash, out passwordSalt);
@@ -128,7 +128,7 @@ namespace Business.Repositories.CariRepository
             cari.PasswordHash = passwordHash;
             cari.PasswordSalt = passwordSalt;
             await _cariDal.Update(cari);
-            return new SuccessResult(CustomerMessages.ChangePassword);
+            return new SuccessResult(CustomerMessages.ChangePassword); 
         }
     }
 }

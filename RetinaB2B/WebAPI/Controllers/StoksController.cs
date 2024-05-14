@@ -1,5 +1,6 @@
 using Business.Repositories.StokRepository;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -38,6 +39,17 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("[action]")]
+        public async Task<IActionResult> UpdateStokAciklama(StokOzellikDto stok)
+        {
+            var result = await _stokService.UpdateStokAciklama(stok);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpPost("[action]")]
         public async Task<IActionResult> Delete(Stok stok)
         {
             var result = await _stokService.Delete(stok);
@@ -63,6 +75,17 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetById(int stokId)
         {
             var result = await _stokService.GetById(stokId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("[action]/{stokId}")]
+        public async Task<IActionResult> GetStokAciklama(int stokId)
+        {
+            var result = await _stokService.GetStokAciklama(stokId);
             if (result.Success)
             {
                 return Ok(result);

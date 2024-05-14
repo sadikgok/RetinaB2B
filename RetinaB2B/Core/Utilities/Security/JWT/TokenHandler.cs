@@ -16,6 +16,16 @@ namespace Core.Utilities.Security.JWT
         public TokenHandler(IConfiguration configuration)
         {
             Configuration = configuration;
+        } 
+        
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using (RandomNumberGenerator random = RandomNumberGenerator.Create())
+            {
+                random.GetBytes(number);
+                return Convert.ToBase64String(number);
+            }
         }
         public AdminToken CreateUserToken(User user, List<OperationClaim> operationClaims)
         {
@@ -47,16 +57,6 @@ namespace Core.Utilities.Security.JWT
             //Refresh token üretelim
             token.RefreshToken = CreateRefreshToken();
             return token;
-        }
-
-        public string CreateRefreshToken()
-        {
-            byte[] number = new byte[32];
-            using (RandomNumberGenerator random = RandomNumberGenerator.Create())
-            {
-                random.GetBytes(number);
-                return Convert.ToBase64String(number);
-            }
         }
 
         private IEnumerable<Claim> SetClaims(User user, List<OperationClaim> operationClaims)

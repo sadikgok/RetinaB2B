@@ -42,6 +42,16 @@ namespace Business.Repositories.StokRepository
         }
 
         [SecuredAspect()]
+        [ValidationAspect(typeof(StokValidator))]
+        [RemoveCacheAspect("IStokService.Get")]
+
+        public async Task<IResult> UpdateStokAciklama(StokOzellikDto stok)
+        {
+            await _stokDal.UpdateStokAciklama(stok);
+            return new SuccessResult(StokMessages.Updated);
+        }
+
+        [SecuredAspect()]
         [RemoveCacheAspect("IStokService.Get")]
 
         public async Task<IResult> Delete(Stok stok)
@@ -76,12 +86,17 @@ namespace Business.Repositories.StokRepository
 
         public int GetLastStokId()
         {
-            return  _stokDal.GetLastStokId();
+            return _stokDal.GetLastStokId();
         }
 
-        public async Task<IDataResult< Stok>> GetStokByBarcode(string barcode)
+        public async Task<IDataResult<Stok>> GetStokByBarcode(string barcode)
         {
             return new SuccessDataResult<Stok>(await _stokDal.GetStokByBarcode(barcode));
+        }
+
+        public async Task<IDataResult<StokOzellikDto>> GetStokAciklama(int stokId)
+        {
+            return new SuccessDataResult<StokOzellikDto>(await _stokDal.GetStokAciklama(stokId));
         }
     }
 }

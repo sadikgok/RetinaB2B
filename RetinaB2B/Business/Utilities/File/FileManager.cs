@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Microsoft.AspNetCore.Http;
+using Renci.SshNet;
 using System.Net;
 
 namespace Business.Concrete
@@ -24,8 +25,8 @@ namespace Business.Concrete
             var fileFormat = file.FileName.Substring(file.FileName.LastIndexOf('.'));
             fileFormat = fileFormat.ToLower();
             string fileName = Guid.NewGuid().ToString() + fileFormat;
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("FTP Adresimiz yazılacak" + fileName);
-            request.Credentials = new NetworkCredential("Kullanıcı adı", "Şifre");
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://home/retinabilisim-b2b/htdocs/b2b.retinabilisim.com.tr/assets/img/" + fileName);
+            request.Credentials = new NetworkCredential("retinabilisim-b2b-ftp", "ZShNBsLrwj2jv5DXlAoQ");
             request.Method = WebRequestMethods.Ftp.UploadFile;
 
             using (Stream ftpStream = request.GetRequestStream())
@@ -34,6 +35,31 @@ namespace Business.Concrete
             }
 
             return fileName;
+        }
+
+        public string FileSaveToSftp(IFormFile file)
+        {
+            string host = "b2b.retinabilisim.com.tr";
+            string username = "retinabilisim-b2b";
+            string password = "zQpFIr6sZ7S9lVMl1iFf";
+            int port = 22;
+            string remoteDirectory = "/home/retinabilisim-b2b/htdocs/b2b.retinabilisim.com.tr/assets/img/";
+
+            using (var client = new SftpClient(host, port, username, password))
+            {
+                client.Connect();
+                var fileFormat = Path.GetExtension(file.FileName).ToLower();
+                string fileName = Guid.NewGuid().ToString() + fileFormat;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    file.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+                    client.UploadFile(memoryStream, Path.Combine(remoteDirectory, fileName));
+                }
+                client.Disconnect();
+                return fileName;
+            }
         }
 
         public byte[] FileConvertByteArrayToDatabase(IFormFile file)
@@ -65,8 +91,8 @@ namespace Business.Concrete
         {
             try
             {
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp adresi" + path);
-                request.Credentials = new NetworkCredential("kullanıcı adı", "şifre");
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("sftp://b2b.retinabilisim.com.tr/assets/img/" + path);
+                request.Credentials = new NetworkCredential("retinabilisim-b2b", "zQpFIr6sZ7S9lVMl1iFf");
                 request.Method = WebRequestMethods.Ftp.DeleteFile;
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
             }

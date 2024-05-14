@@ -1,3 +1,4 @@
+using Business.Aspects.Secured;
 using Business.Repositories.PriceListDetailRepository;
 using Business.Repositories.ProductImageRepository;
 using Business.Repositories.ProductRepository.Constants;
@@ -27,8 +28,8 @@ namespace Business.Repositories.ProductRepository
         }
 
         //[SecuredAspect("admin,product.add")]
-        [ValidationAspect(typeof(ProductValidator))]
-        [RemoveCacheAspect("IProductService.Get")]
+        //[ValidationAspect(typeof(ProductValidator))]
+        //[RemoveCacheAspect("IProductService.Get")]
 
         public async Task<IResult> Add(Product product)
         {
@@ -36,7 +37,7 @@ namespace Business.Repositories.ProductRepository
             return new SuccessResult(ProductMessages.Added);
         }
 
-        //[SecuredAspect("admin,product.update")]
+        [SecuredAspect("admin,product.update")]
         [ValidationAspect(typeof(ProductValidator))]
         [RemoveCacheAspect("IProductService.Get")]
 
@@ -46,7 +47,7 @@ namespace Business.Repositories.ProductRepository
             return new SuccessResult(ProductMessages.Updated);
         }
 
-        //[SecuredAspect("admin,product.delete")]
+        [SecuredAspect("admin,product.delete")]
         [RemoveCacheAspect("IProductService.Get")]
 
         public async Task<IResult> Delete(Product product)
@@ -67,7 +68,7 @@ namespace Business.Repositories.ProductRepository
             return new SuccessResult(ProductMessages.Deleted);
         }
 
-        //[SecuredAspect("admin,product.get")] 
+        [SecuredAspect("admin,product.get")] 
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetList()
@@ -75,13 +76,13 @@ namespace Business.Repositories.ProductRepository
             return new SuccessDataResult<List<ProductListDto>>(await _productDal.GetList());
         }
 
-        //[SecuredAspect("admin,product.get")]
+        [SecuredAspect("admin,product.get")]
         public async Task<IDataResult<Product>> GetById(int id)
         {
             return new SuccessDataResult<Product>(await _productDal.Get(p => p.Id == id));
         }
 
-        //[SecuredAspect("admin,product.get")]
+        [SecuredAspect("admin,product.get")]
         [PerformanceAspect()]
         public async Task<IDataResult<List<ProductListDto>>> GetProductList(int customerId)
         {
