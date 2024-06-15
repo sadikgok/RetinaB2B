@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Repositories.StokGrupRepository;
-using Entities.Concrete;
 using Business.Aspects.Secured;
-using Core.Aspects.Validation;
+using Business.Repositories.StokGrupRepository.Constants;
+using Business.Repositories.StokGrupRepository.Validation;
 using Core.Aspects.Caching;
 using Core.Aspects.Performance;
-using Business.Repositories.StokGrupRepository.Validation;
-using Business.Repositories.StokGrupRepository.Constants;
+using Core.Aspects.Validation;
 using Core.Utilities.Result.Abstract;
 using Core.Utilities.Result.Concrete;
 using DataAccess.Repositories.StokGrupRepository;
+using Entities.Concrete;
 
 namespace Business.Repositories.StokGrupRepository
 {
@@ -55,7 +49,7 @@ namespace Business.Repositories.StokGrupRepository
             return new SuccessResult(StokGrupMessages.Deleted);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<StokGrup>>> GetList()
@@ -63,7 +57,7 @@ namespace Business.Repositories.StokGrupRepository
             return new SuccessDataResult<List<StokGrup>>(await _stokGrupDal.GetAll());
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         public async Task<IDataResult<StokGrup>> GetById(int id)
         {
             return new SuccessDataResult<StokGrup>(await _stokGrupDal.Get(p => p.StokGrupId == id));

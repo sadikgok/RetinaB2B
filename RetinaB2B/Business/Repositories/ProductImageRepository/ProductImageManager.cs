@@ -24,7 +24,7 @@ namespace Business.Repositories.ProductImageRepository
             _fileService = fileService;
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [ValidationAspect(typeof(ProductImageValidator))]
         [RemoveCacheAspect("IProductImageService.Get")]
 
@@ -87,14 +87,14 @@ namespace Business.Repositories.ProductImageRepository
             return new SuccessResult(ProductImageMessages.Updated);
         }
 
-        [SecuredAspect()]
+        //[SecuredAspect()]
         [RemoveCacheAspect("IProductImageService.Get")]
         public async Task<IResult> Delete(ProductImage productImage)
         {
             //string path = @"C:/Users/hp/Desktop/calismalar/RetinaB2BFrontend/src/assets/img/" + productImage.ImageUrl;
             //_fileService.FileDeleteToServer(path);
             string path =productImage.ImageUrl;
-            _fileService.FileDeleteToFtp(path);
+            _fileService.FileDeleteToSftp(path);
 
             await _productImageDal.Delete(productImage);
             return new SuccessResult(ProductImageMessages.Deleted);

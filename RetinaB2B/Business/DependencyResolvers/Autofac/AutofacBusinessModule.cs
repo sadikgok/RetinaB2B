@@ -53,6 +53,8 @@ using Business.Repositories.IslemHareketRepository;
 using DataAccess.Repositories.IslemHareketRepository;
 using Business.Repositories.IslemDetayRepository;
 using DataAccess.Repositories.IslemDetayRepository;
+using Business.Repositories.FirmaBilgisiRepository;
+using DataAccess.Repositories.FirmaBilgisiRepository;
 using DataAccess.Repositories.UserRepository;
 
 namespace Business.DependencyResolvers.Autofac
@@ -139,6 +141,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<IslemDetayManager>().As<IIslemDetayService>().SingleInstance();
             builder.RegisterType<EfIslemDetayDal>().As<IIslemDetayDal>().SingleInstance();
+
+            builder.RegisterType<FirmaBilgisiManager>().As<IFirmaBilgisiService>().SingleInstance();
+            builder.RegisterType<EfFirmaBilgisiDal>().As<IFirmaBilgisiDal>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

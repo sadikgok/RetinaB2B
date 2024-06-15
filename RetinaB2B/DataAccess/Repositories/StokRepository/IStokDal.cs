@@ -12,6 +12,7 @@ namespace DataAccess.Repositories.StokRepository
         Task<Stok> GetStokByBarcode(string barcode);
         Task UpdateStokAciklama(StokOzellikDto stok);
         Task<StokOzellikDto> GetStokAciklama(int stokId);
+        Task<List<ProductListDto>> GetStokListForUI();
 
         //List<Stoklar> StoklariAdinaGoreGetir(string stokAdi);
 

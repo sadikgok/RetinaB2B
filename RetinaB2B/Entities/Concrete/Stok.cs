@@ -1,6 +1,4 @@
-﻿using Entities.Dtos;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Concrete
 {

@@ -1,7 +1,9 @@
 using Business.Repositories.StokRepository;
+using DataAccess.Context.EntityFramework;
 using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers
 {
@@ -10,6 +12,7 @@ namespace WebApi.Controllers
     public class StoksController : ControllerBase
     {
         private readonly IStokService _stokService;
+        private object _dovizKuru;
 
         public StoksController(IStokService stokService)
         {
@@ -127,6 +130,85 @@ namespace WebApi.Controllers
         {
             var result = _stokService.GetLastStokId();
             return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetStokListForUI()
+        {
+            var result = await _stokService.GetStokListForUI();
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("{page}/{pageSize}")]
+        public async Task<IActionResult> GetPagedProducts(int pageNumber = 1, int pageSize = 1, string grup = "")
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var result = from stok in context.Stoklar
+                             where context.ProductImages.Any(p => p.StokId == stok.StokId)
+                             select new ProductListDto
+                             {
+                                 StokId = stok.StokId,
+                                 StokAdi = stok.StokAdi,
+                                 SatisFiyati = stok.SatisFiyati,
+                                 ToptanSatisFiyati = stok.ToptanSatisFiyati,
+                                 BayiSatisFiyati = stok.BayiSatisFiyati,
+                                 IndirimliSatisFiyati = stok.IndirimliSatisFiyati,
+                                 IndirimliStokAdedi = stok.IndirimliStokAdedi,
+                                 MainImageUrl = context.ProductImages
+                                     .Where(p => p.StokId == stok.StokId && p.IsMainImage)
+                                     .Select(s => s.ImageUrl)
+                                     .FirstOrDefault() ?? "",
+                                 Image = context.ProductImages
+                                     .Where(p => p.StokId == stok.StokId)
+                                     .Select(s => s.ImageUrl)
+                                     .ToList()
+                             };
+                var pagedResult = await result
+                                    .Skip((pageNumber - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToListAsync();
+                var totalRecords = await result.CountAsync();
+
+                return Ok(new
+                {
+                    TotalRecords = totalRecords,
+                    Data = pagedResult
+                });
+
+                //var totalRecords = await context.Stoklar.CountAsync();
+                //var stoks = await context.Stoklar
+                //    .OrderBy(s => s.StokAdi)
+                //    .Skip((pageNumber - 1) * pageSize)
+                //    .Take(pageSize)
+                //    .Select(stok => new ProductListDto
+                //    {
+                //        StokId = stok.StokId,
+                //        StokAdi = stok.StokAdi,
+                //        SatisFiyati = stok.SatisFiyati,
+                //        MainImageUrl = context.ProductImages.Where(p => p.StokId == stok.StokId && p.IsMainImage).Select(s => s.ImageUrl).FirstOrDefault() ?? "",
+                //        Image = context.ProductImages.Where(p => p.StokId == stok.StokId).Select(s => s.ImageUrl).ToList()
+                //    })
+                //    .ToListAsync();
+
+                //return Ok(new { data = stoks, totalRecords = totalRecords });
+            }
+        }
+
+
+        [HttpPost("[action]")]
+        public IActionResult SetDovizKuru([FromBody] object data)
+        {
+            _dovizKuru = data;
+            return Ok(new { message = "Veri alýndý", data });
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult PostDovizKuru()
+        {
+            return Ok(_dovizKuru);
         }
     }
 }

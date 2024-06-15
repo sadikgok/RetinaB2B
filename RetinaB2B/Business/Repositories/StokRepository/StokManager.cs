@@ -21,7 +21,7 @@ namespace Business.Repositories.StokRepository
             _stokDal = stokDal;
         }
 
-        //[SecuredAspect()]
+        [SecuredAspect()]
         [ValidationAspect(typeof(StokValidator))]
         [RemoveCacheAspect("IStokService.Get")]
 
@@ -60,7 +60,6 @@ namespace Business.Repositories.StokRepository
             return new SuccessResult(StokMessages.Deleted);
         }
 
-        [SecuredAspect()]
         [CacheAspect()]
         [PerformanceAspect()]
         public async Task<IDataResult<List<Stok>>> GetList()
@@ -68,17 +67,20 @@ namespace Business.Repositories.StokRepository
             return new SuccessDataResult<List<Stok>>(await _stokDal.GetAll());
         }
 
-        [SecuredAspect()]
         public async Task<IDataResult<Stok>> GetById(int stokId)
         {
             return new SuccessDataResult<Stok>(await _stokDal.Get(p => p.StokId == stokId));
         }
 
+        [CacheAspect()]
+        [PerformanceAspect()]
         public async Task<IDataResult<List<DepoStokDto>>> GetStokByDepoId(int depoId)
         {
             return new SuccessDataResult<List<DepoStokDto>>(await _stokDal.GetStokByDepoId(depoId));
         }
 
+        [CacheAspect()]
+        [PerformanceAspect()]
         public async Task<IDataResult<List<DepoStokDto>>> GetStokByGroupId(int groupId)
         {
             return new SuccessDataResult<List<DepoStokDto>>(await _stokDal.GetStokByGroupId(groupId));
@@ -97,6 +99,13 @@ namespace Business.Repositories.StokRepository
         public async Task<IDataResult<StokOzellikDto>> GetStokAciklama(int stokId)
         {
             return new SuccessDataResult<StokOzellikDto>(await _stokDal.GetStokAciklama(stokId));
+        }
+
+        [CacheAspect()]
+        [PerformanceAspect()]
+        public async Task<IDataResult<List<ProductListDto>>> GetStokListForUI()
+        {
+            return new SuccessDataResult<List<ProductListDto>>(await _stokDal.GetStokListForUI());
         }
     }
 }

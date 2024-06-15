@@ -10,5 +10,6 @@ namespace Business.Abstract
         byte[] FileConvertByteArrayToDatabase(IFormFile file);
         void FileDeleteToServer(string path);
         void FileDeleteToFtp(string path);
+        void FileDeleteToSftp(string path);
     }
 }

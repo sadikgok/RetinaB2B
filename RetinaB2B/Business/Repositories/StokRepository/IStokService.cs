@@ -17,5 +17,6 @@ namespace Business.Repositories.StokRepository
         Task<IDataResult<Stok>> GetStokByBarcode(string barcode);
         Task<IResult> UpdateStokAciklama(StokOzellikDto stok);
         Task<IDataResult<StokOzellikDto>> GetStokAciklama(int stokId);
+        Task<IDataResult<List<ProductListDto>>> GetStokListForUI();
     }
 }

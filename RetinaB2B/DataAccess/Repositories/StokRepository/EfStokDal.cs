@@ -19,7 +19,6 @@ namespace DataAccess.Repositories.StokRepository
                 return lastId;
             }
         }
-
         public async Task<List<DepoStokDto>> GetStokByDepoId(int depoId)
         {
             using (SimpleContextDb context = new SimpleContextDb())
@@ -69,7 +68,6 @@ namespace DataAccess.Repositories.StokRepository
                 return await result.ToListAsync();
             }
         }
-
         public async Task<Stok> GetStokByBarcode(string barcode)
         {
             using (var context = new SimpleContextDb())
@@ -78,7 +76,6 @@ namespace DataAccess.Repositories.StokRepository
                 return result;
             }
         }
-
         public async Task UpdateStokAciklama(StokOzellikDto stok)
         {
             using (var context = new SimpleContextDb())
@@ -88,7 +85,6 @@ namespace DataAccess.Repositories.StokRepository
                 await context.SaveChangesAsync();
             }
         }
-
         public async Task<StokOzellikDto> GetStokAciklama(int stokId)
         {
             using (var context = new SimpleContextDb())
@@ -99,6 +95,37 @@ namespace DataAccess.Repositories.StokRepository
                     StokAdi = result.StokAdi,
                     Aciklama = result.Aciklama,
                 };
+            }
+        }
+        public async Task<List<ProductListDto>> GetStokListForUI()
+        {
+            using (var context = new SimpleContextDb())
+            {
+                var result = from stok in context.Stoklar
+                                 //             let mainImageQuery = context.ProductImages.Where(p => p.StokId == stok.StokId && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
+                                 //             select new ProductListDto
+                                 //             {
+                                 //                 StokId = stok.StokId,
+                                 //                 StokAdi = stok.StokAdi,
+                                 //                 SatisFiyati = stok.SatisFiyati,
+                                 //                 MainImageUrl = mainImageQuery ?? "",
+                                 //                 Image = context.ProductImages.Where(p => p.StokId == stok.StokId).Select(s => s.ImageUrl).ToList()
+                                 //             };
+                                 //return await result.OrderBy(p => p.StokAdi).ToListAsync();
+
+
+
+                             where context.ProductImages.Any(p => p.StokId == stok.StokId)
+                             select new ProductListDto
+                             {
+                                 StokId = stok.StokId,
+                                 StokAdi = stok.StokAdi,
+                                 SatisFiyati = stok.SatisFiyati,
+                                 MainImageUrl = context.ProductImages.Where(p => p.StokId == stok.StokId && p.IsMainImage).Select(s => s.ImageUrl).FirstOrDefault() ?? "",
+                                 Image = context.ProductImages.Where(p => p.StokId == stok.StokId).Select(s => s.ImageUrl).ToList()
+                             };
+
+                return await result.OrderBy(p => p.StokAdi).ToListAsync();
             }
         }
     }

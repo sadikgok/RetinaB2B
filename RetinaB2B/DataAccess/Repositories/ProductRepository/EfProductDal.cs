@@ -18,34 +18,34 @@ namespace DataAccess.Repositories.ProductRepository
                     var result = from product in context.Products
                                  select new ProductListDto
                                  {
-                                     Id = product.Id,
-                                     Name = product.Name,
-                                     Discount = customerReliationship.Discount,
-                                     Price = context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Count() > 0
-                                     ? context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Select(s => s.Price).FirstOrDefault()
-                                     : 0,
+                                     StokId = product.Id,
+                                     StokAdi = product.Name,
+                                     //Discount = customerReliationship.Discount,
+                                     //Price = context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Count() > 0
+                                     //? context.PriceListDetails.Where(p => p.PriceListId == customerReliationship.PriceListId && p.ProductId == product.Id).Select(s => s.Price).FirstOrDefault()
+                                     //: 0,
                                      MainImageUrl = (context.ProductImages.Where(p => p.StokId == product.Id && p.IsMainImage == true).Count() > 0
                                      ? context.ProductImages.Where(p => p.StokId == product.Id && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
                                      : ""),
                                      Image = context.ProductImages.Where(p => p.StokId == product.Id).Select(s => s.ImageUrl).ToList()
                                  };
-                    return await result.OrderBy(p => p.Name).ToListAsync();
+                    return await result.OrderBy(p => p.StokAdi).ToListAsync();
                 }
                 else
                 {
                     var result = from product in context.Products
                                  select new ProductListDto
                                  {
-                                     Id = product.Id,
-                                     Name = product.Name,
-                                     Discount = 0,
-                                     Price = 0,
+                                     StokId = product.Id,
+                                     StokAdi = product.Name,
+                                     //Discount = 0,
+                                     //Price = 0,
                                      MainImageUrl = (context.ProductImages.Where(p => p.StokId == product.Id && p.IsMainImage == true).Count() > 0
                                      ? context.ProductImages.Where(p => p.StokId == product.Id && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
                                      : ""),
                                      Image = context.ProductImages.Where(p => p.StokId == product.Id).Select(s => s.ImageUrl).ToList()
                                  };
-                    return await result.OrderBy(p => p.Name).ToListAsync();
+                    return await result.OrderBy(p => p.StokAdi).ToListAsync();
                 }
             }
         }
@@ -57,13 +57,13 @@ namespace DataAccess.Repositories.ProductRepository
                 var result = from product in context.Products
                              select new ProductListDto
                              {
-                                 Id = product.Id,
-                                 Name = product.Name,
+                                 StokId = product.Id,
+                                 StokAdi = product.Name,
                                  MainImageUrl = (context.ProductImages.Where(p => p.StokId == product.Id && p.IsMainImage == true).Count() > 0
                                  ? context.ProductImages.Where(p => p.StokId == product.Id && p.IsMainImage == true).Select(s => s.ImageUrl).FirstOrDefault()
                                  : "")
                              };
-                return await result.OrderBy(p => p.Name).ToListAsync();
+                return await result.OrderBy(p => p.StokAdi).ToListAsync();
             }
         }
     }

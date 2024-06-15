@@ -97,7 +97,7 @@ namespace Business.Repositories.CariRepository
             return new SuccessDataResult<List<CariDto>>(await _cariDal.GetListDto());
         }
 
-        [SecuredAspect()]
+       
         public async Task<IDataResult<Cari>> GetById(int cariId)
         {
             return new SuccessDataResult<Cari>(await _cariDal.Get(p => p.CariId == cariId));

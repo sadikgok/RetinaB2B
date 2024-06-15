@@ -8,7 +8,7 @@ namespace DataAccess.Context.EntityFramework
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=RetinaB2B;Integrated Security=true;");
-            optionsBuilder.UseSqlServer("Server=128.140.42.160;Database=Retinab2b;User Id=sadikgok;  Password=HasanSadik5481!!;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Server=server.retinabilisim.com.tr;Database=technoboxb2b;User Id=sadikgok;  Password=HasanSadik5481!!;TrustServerCertificate=true;");
         }
 
         public DbSet<User> Users { get; set; }
@@ -36,5 +36,6 @@ namespace DataAccess.Context.EntityFramework
         public DbSet<CariHareket> CariHareketleri { get; set; }
         public DbSet<IslemHareket> IslemHareketleri { get; set; }
         public DbSet<IslemDetay> IslemDetaylari { get; set; }
+        public DbSet<FirmaBilgisi> FirmaBilgileri { get; set; } 
     }
 }
